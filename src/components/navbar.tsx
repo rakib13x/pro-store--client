@@ -16,17 +16,27 @@ const Navbar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [height, setHeight] = useState<any>(0);
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    setHeight(ref.current?.clientHeight);
+    setHeight(ref.current?.clientHeight || 0);
   }, []);
 
   useEffect(() => {
-    window.onscroll = () => {
-      window.scrollY === 0 && setIsScrolling(false);
-      window.scrollY > height && setIsScrolling(true);
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setIsScrolling(false);
+      } else if (window.scrollY > height) {
+        setIsScrolling(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [height]);
 
@@ -95,7 +105,7 @@ const Navbar = () => {
                         <Menu.Items className="absolute mt-2 space-y-6 rounded-2xl bg-white p-5 drop-shadow-md">
                           {menu.submenu.map((submenu, index) => (
                             <Menu.Item key={index}>
-                              {({ active }) => (
+                              {({}) => (
                                 <Link
                                   href={submenu.pathname}
                                   onClick={() => setIsOpen(false)}
