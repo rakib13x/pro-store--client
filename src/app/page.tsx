@@ -11,6 +11,7 @@ import ButtonAppStore from "../../public/assets/img/btn-app-store.png";
 import Explore from "@/components/sections/explore";
 import AboutUs from "@/components/sections/about-us";
 import PopularMenu from "@/components/sections/popular-menu";
+import Testimonial from "@/components/sections/testimonial";
 
 export default function Home() {
   return (
@@ -113,6 +114,8 @@ export default function Home() {
 
         {/* Section 3 - Popular Menu */}
         <PopularMenu />
+        {/* Section 4 - Testimonial */}
+        <Testimonial />
       </div>
       {/* End Content Section */}
     </>
