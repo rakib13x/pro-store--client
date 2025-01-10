@@ -1,0 +1,44 @@
+[
+	{
+		"category": "Quick Links 1",
+		"links": [
+			{
+				"title": "Home",
+				"path": "/home"
+			},
+			{
+				"title": "About",
+				"path": "/about"
+			},
+			{
+				"title": "Menu",
+				"path": "/menu"
+			},
+			{
+				"title": "Blog",
+				"path": "/blog"
+			}
+		]
+	},
+	{
+		"category": "Quick Links 2",
+		"links": [
+			{
+				"title": "My Favorites",
+				"path": "/my-favorites"
+			},
+			{
+				"title": "My Cart",
+				"path": "/my-cart"
+			},
+			{
+				"title": "Empty State",
+				"path": "/my-favorites"
+			},
+			{
+				"title": "Contact us",
+				"path": "/contact"
+			}
+		]
+	}
+]

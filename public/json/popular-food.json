@@ -1,0 +1,42 @@
+[
+	{
+		"name": "Chococheese Cake",
+		"image": "food-1.png",
+		"price": "$2.5"
+	},
+	{
+		"name": "Pink Donuts",
+		"image": "food-2.png",
+		"price": "$2.8"
+	},
+	{
+		"name": "Choco Cake",
+		"image": "food-3.png",
+		"price": "$2.9"
+	},
+	{
+		"name": "Sweet Cake",
+		"image": "food-4.png",
+		"price": "$2.3"
+	},
+	{
+		"name": "Pink Sweet",
+		"image": "food-5.png",
+		"price": "$2.1"
+	},
+	{
+		"name": "Choco Cookies",
+		"image": "food-6.png",
+		"price": "$2.8"
+	},
+	{
+		"name": "Sweet Donuts",
+		"image": "food-7.png",
+		"price": "$1.8"
+	},
+	{
+		"name": "Sweet Choco",
+		"image": "food-8.png",
+		"price": "$3.6"
+	}
+]

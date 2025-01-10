@@ -1,0 +1,144 @@
+[
+	{
+		"category": "All",
+		"image": "",
+		"items": [
+			{
+				"name": "Chococheese Cake",
+				"images": ["food-1.png"],
+				"price": "$2.5",
+				"desc": null
+			},
+			{
+				"name": "Pink Donuts",
+				"images": ["food-2.png"],
+				"price": "$2.8",
+				"desc": null
+			},
+			{
+				"name": "Choco Cake",
+				"images": ["food-3.png"],
+				"price": "$2.9",
+				"desc": null
+			},
+			{
+				"name": "Sweet Cake",
+				"images": ["food-4.png"],
+				"price": "$2.3",
+				"desc": "From classic favorites to unique creations, our cake menu at Fofood offers a delectable selection of sweet treats that will satisfy your cravings. Indulge in moist and fluffy vanilla cake, rich chocolate ganache cake, refreshing lemon berry cake, tropical mango passion cake, and more. With options available for various dietary preferences, including vegan and gluten-free choices, everyone can enjoy our irresistible cakes. Whether you&lsquo;re celebrating a special occasion or simply treating yourself, our cakes are made with the finest ingredients and expert craftsmanship. Discover the joy of our sweet creations and let our cakes be the highlight of your sweet moments."
+			},
+			{
+				"name": "Pink Sweet",
+				"images": ["food-5.png"],
+				"price": "$2.1",
+				"desc": null
+			},
+			{
+				"name": "Choco Cookies",
+				"images": ["food-6.png"],
+				"price": "$2.8",
+				"desc": null
+			},
+			{
+				"name": "Sweet Donuts",
+				"images": ["food-7.png"],
+				"price": "$1.8",
+				"desc": null
+			},
+			{
+				"name": "Sweet Choco",
+				"images": ["food-8.png"],
+				"price": "$3.6",
+				"desc": null
+			}
+		]
+	},
+	{
+		"category": "Cakes",
+		"image": "food-menu-1.png",
+		"items": [
+			{
+				"name": "Chococheese Cake",
+				"images": ["food-1.png"],
+				"price": "$2.5",
+				"desc": null
+			},
+			{
+				"name": "Choco Cake",
+				"images": ["food-3.png"],
+				"price": "$2.9",
+				"desc": null
+			},
+			{
+				"name": "Sweet Cake",
+				"images": ["food-4.png"],
+				"price": "$2.3",
+				"desc": null
+			}
+		]
+	},
+	{
+		"category": "Cupcakes",
+		"image": "food-menu-2.png",
+		"items": [
+			{
+				"name": "Sweet Cake",
+				"images": ["food-4.png"],
+				"price": "$2.3",
+				"desc": null
+			},
+			{
+				"name": "Pink Sweet",
+				"images": ["food-5.png"],
+				"price": "$2.1",
+				"desc": null
+			},
+			{
+				"name": "Sweet Choco",
+				"images": ["food-8.png"],
+				"price": "$3.6",
+				"desc": null
+			}
+		]
+	},
+	{
+		"category": "Donuts",
+		"image": "food-menu-3.png",
+		"items": [
+			{
+				"name": "Pink Donuts",
+				"images": ["food-2.png"],
+				"price": "$2.8",
+				"desc": null
+			},
+			{
+				"name": "Sweet Donuts",
+				"images": ["food-7.png"],
+				"price": "$1.8",
+				"desc": null
+			}
+		]
+	},
+	{
+		"category": "Cookies",
+		"image": "food-menu-4.png",
+		"items": [
+			{
+				"name": "Choco Cookies",
+				"images": ["food-6.png"],
+				"price": "$2.8",
+				"desc": null
+			}
+		]
+	},
+	{
+		"category": "Macarons",
+		"image": "food-menu-5.png",
+		"items": []
+	},
+	{
+		"category": "Drinks",
+		"image": "food-menu-6.png",
+		"items": []
+	}
+]

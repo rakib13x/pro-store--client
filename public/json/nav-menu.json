@@ -1,0 +1,36 @@
+[
+	{
+		"title": "Home",
+		"pathname": "/"
+	},
+	{
+		"title": "About",
+		"pathname": "/about"
+	},
+	{
+		"title": "Menu",
+		"pathname": "/menu"
+	},
+	{
+		"title": "Blog",
+		"pathname": "/blog"
+	},
+	{
+		"title": "Pages",
+		"pathname": "/pages",
+		"submenu": [
+			{
+				"title": "Detail Menu",
+				"pathname": "/menu/sweet-cake"
+			},
+			{
+				"title": "Detail Blog",
+				"pathname": "/blog/how-to-cook-the-sweet-cupcakes-with-strawberry-honey"
+			},
+			{
+				"title": "Empty State",
+				"pathname": "/my-favorites"
+			}
+		]
+	}
+]

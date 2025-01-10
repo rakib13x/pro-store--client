@@ -3,19 +3,94 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--foreground-rgb: 255, 255, 255;
+		--background-start-rgb: 0, 0, 0;
+		--background-end-rgb: 0, 0, 0;
+	}
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
+
+@layer components {
+	.btn-pink-solid {
+		@apply text-body-2-medium rounded-[32px] bg-primary-100 px-10 py-5 text-white shadow-lg shadow-[#AE1339]/30 transition duration-300 hover:bg-additional-yellow hover:text-secondary-100;
+	}
+	.btn-pink-outline {
+		@apply text-body-2-medium rounded-[32px] border border-primary-100 bg-transparent px-10 py-5 text-primary-100 transition duration-300 hover:bg-primary-100 hover:text-white;
+	}
+	.btn-white-solid {
+		@apply text-body-2-medium rounded-[32px] border border-white bg-white px-10 py-5 text-primary-100 shadow-lg shadow-[#AE1339]/30 transition duration-300 hover:border-additional-yellow hover:bg-additional-yellow hover:text-secondary-100;
+	}
+	.btn-yellow-solid {
+		@apply text-body-2-medium rounded-[32px] bg-additional-yellow px-10 py-5 text-secondary-100 shadow-lg shadow-[#AE1339]/30;
+	}
+}
+
+@layer utilities {
+	/* Text Heading */
+	.text-heading-1 {
+		@apply font-figtree text-[70px] font-bold tracking-[-0.04em];
+	}
+	.text-heading-2 {
+		@apply font-figtree text-[54px] font-bold tracking-[-0.04em];
+	}
+	.text-heading-3 {
+		@apply font-figtree text-[38px] font-bold tracking-[-0.04em];
+	}
+	.text-heading-4 {
+		@apply font-figtree text-[28px] font-bold tracking-[-0.04em];
+	}
+	.text-heading-5 {
+		@apply font-figtree text-[24px] font-bold tracking-[-0.04em];
+	}
+	.text-heading-6 {
+		@apply font-figtree text-[22px] font-semibold tracking-[-0.04em];
+	}
+
+	/* Text Body */
+	.text-body-1 {
+		@apply font-figtree text-lg font-normal leading-8 tracking-[-0.04em];
+	}
+	.text-body-2-regular {
+		@apply font-figtree text-base font-normal leading-8 tracking-[-0.04em];
+	}
+	.text-body-2-medium {
+		@apply font-figtree text-base font-medium leading-none tracking-[-0.04em];
+	}
+	.text-body-3-regular {
+		@apply font-figtree text-sm font-normal leading-none tracking-[-0.04em];
+	}
+	.text-body-3-medium {
+		@apply font-figtree text-sm font-medium leading-none tracking-[-0.04em];
+	}
+	.text-body-3-bold {
+		@apply font-figtree text-sm font-bold leading-none tracking-[-0.04em];
+	}
+
+	/* Text Caption */
+	.text-caption-1 {
+		@apply font-fredoka text-[28px] font-semibold tracking-[-0.02em];
+	}
+	.text-caption-2 {
+		@apply font-fredoka text-[20px] font-semibold tracking-[-0.015em];
+	}
+	.text-caption-3 {
+		@apply font-fredoka text-base font-semibold tracking-[-0.015em];
+	}
+	.text-caption-4 {
+		@apply font-fredoka text-sm font-semibold tracking-[-0.015em];
+	}
 }
