@@ -12,6 +12,7 @@ import Explore from "@/components/sections/explore";
 import AboutUs from "@/components/sections/about-us";
 import PopularMenu from "@/components/sections/popular-menu";
 import Testimonial from "@/components/sections/testimonial";
+import OurBlog from "@/components/sections/our-blog";
 
 export default function Home() {
   return (
@@ -116,6 +117,9 @@ export default function Home() {
         <PopularMenu />
         {/* Section 4 - Testimonial */}
         <Testimonial />
+
+        {/* Section 5 - Our Blog */}
+        <OurBlog />
       </div>
       {/* End Content Section */}
     </>
