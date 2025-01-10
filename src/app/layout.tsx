@@ -26,7 +26,6 @@ export default function RootLayout({
       <body className={`${figtree.variable} ${fredoka.variable}`}>
         <Navbar />
         {children}
-        <p className="text-red-500">Hello</p>
       </body>
     </html>
   );
