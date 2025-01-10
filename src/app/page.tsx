@@ -8,6 +8,7 @@ import Avatar3 from "../../public/assets/img/avatar-3.png";
 import Avatar4 from "../../public/assets/img/avatar-4.png";
 import ButtonGooglePlay from "../../public/assets/img/btn-google-play.png";
 import ButtonAppStore from "../../public/assets/img/btn-app-store.png";
+import Explore from "@/components/sections/explore";
 
 export default function Home() {
   return (
@@ -92,6 +93,12 @@ export default function Home() {
       {/* Start Main Section - Hero */}
 
       {/* Start Content Section */}
+      <div className="container">
+        {/* Section 1 - Explore */}
+        <Explore />
+
+        {/* Section 2 - About us */}
+      </div>
       {/* End Content Section */}
     </>
   );
