@@ -10,6 +10,7 @@ import ButtonGooglePlay from "../../public/assets/img/btn-google-play.png";
 import ButtonAppStore from "../../public/assets/img/btn-app-store.png";
 import Explore from "@/components/sections/explore";
 import AboutUs from "@/components/sections/about-us";
+import PopularMenu from "@/components/sections/popular-menu";
 
 export default function Home() {
   return (
@@ -109,6 +110,9 @@ export default function Home() {
           </AboutUs.Text>
           <AboutUs.Button>Read More</AboutUs.Button>
         </AboutUs>
+
+        {/* Section 3 - Popular Menu */}
+        <PopularMenu />
       </div>
       {/* End Content Section */}
     </>
