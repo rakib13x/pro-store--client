@@ -18,6 +18,7 @@ export default function Home() {
   return (
     <>
       {/* Start Main Section - Hero */}
+      {/* Start Main Section - Hero */}
       <main className="relative bg-primary-10 lg:h-screen">
         <div className="bg-[url('/assets/img/hero-shape.png')] bg-contain bg-right bg-no-repeat lg:absolute lg:right-0 lg:h-screen">
           <Image
