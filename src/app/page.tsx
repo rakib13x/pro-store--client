@@ -9,6 +9,7 @@ import Avatar4 from "../../public/assets/img/avatar-4.png";
 import ButtonGooglePlay from "../../public/assets/img/btn-google-play.png";
 import ButtonAppStore from "../../public/assets/img/btn-app-store.png";
 import Explore from "@/components/sections/explore";
+import AboutUs from "@/components/sections/about-us";
 
 export default function Home() {
   return (
@@ -98,6 +99,16 @@ export default function Home() {
         <Explore />
 
         {/* Section 2 - About us */}
+        <AboutUs>
+          <AboutUs.Subtitle>Welcome to Fofood</AboutUs.Subtitle>
+          <AboutUs.Text>
+            Welcome to Fofood, where we&lsquo;re committed to combating food
+            deserts. Our goal is to ensure everyone has access to fresh,
+            healthy, and affordable food, regardless of their location. Join us
+            in creating a brighter future for all.
+          </AboutUs.Text>
+          <AboutUs.Button>Read More</AboutUs.Button>
+        </AboutUs>
       </div>
       {/* End Content Section */}
     </>
