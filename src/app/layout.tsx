@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import "./globals.css";
 import { Figtree, Fredoka } from "next/font/google";
+import Footer from "@/components/footer";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`${figtree.variable} ${fredoka.variable}`}>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
