@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import "./globals.css";
 import { Figtree, Fredoka } from "next/font/google";
 import Footer from "@/components/footer";
+import NextTopLoader from "nextjs-toploader";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${figtree.variable} ${fredoka.variable}`}>
+        <NextTopLoader color="#DB6885" height={5} />
         <Navbar />
         {children}
         <Footer />
