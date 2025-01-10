@@ -1,6 +1,6 @@
 export const convertSlugToName = (slug: string) => {
-  return slug.replace(/-/g, " ").replace(/\b[a-z]/g, function () {
-    return arguments[0];
+  return slug.replace(/-/g, " ").replace(/\b[a-z]/g, (match) => {
+    return match.toUpperCase();
   });
 };
 
