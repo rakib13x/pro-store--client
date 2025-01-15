@@ -101,10 +101,10 @@ const page = () => {
                     <span className="ml-3">Sign Up</span>
                   </button>
                   <p className="text-center mt-6">
-                    Don&apos;t have an account?{" "}
+                    Already have an account?{" "}
                     <Link href="/login">
                       <span className="cursor-pointer text-pink-500 mr-1 ">
-                        signup
+                        login
                       </span>
                     </Link>
                     here
