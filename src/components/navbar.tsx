@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { VscClose, VscMenu } from "react-icons/vsc";
+import { IoIosLogIn } from "react-icons/io";
 import { Buy, Heart } from "react-iconly";
 import Logo from "../../public/assets/img/logo-color.png";
 import navMenu from "../../public/json/nav-menu.json";
@@ -58,6 +59,12 @@ const Navbar = () => {
               className="rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
             >
               <Buy style={{ height: "21px" }} />
+            </Link>
+            <Link
+              href="/signup"
+              className="rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
+            >
+              <IoIosLogIn style={{ height: "21px" }} />
             </Link>
             <button
               className="rounded-sm border border-secondary-100 px-3 py-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
