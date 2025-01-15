@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 
-import Cake from "../../public/assets/img/hero-cake.png";
-import Avatar1 from "../../public/assets/img/avatar-1.png";
-import Avatar2 from "../../public/assets/img/avatar-2.png";
-import Avatar3 from "../../public/assets/img/avatar-3.png";
-import Avatar4 from "../../public/assets/img/avatar-4.png";
-import ButtonGooglePlay from "../../public/assets/img/btn-google-play.png";
-import ButtonAppStore from "../../public/assets/img/btn-app-store.png";
+import Cake from "../../../public/assets/img/hero-cake.png";
+import Avatar1 from "../../../public/assets/img/avatar-1.png";
+import Avatar2 from "../../../public/assets/img/avatar-2.png";
+import Avatar3 from "../../../public/assets/img/avatar-3.png";
+import Avatar4 from "../../../public/assets/img/avatar-4.png";
+import ButtonGooglePlay from "../../../public/assets/img/btn-google-play.png";
+import ButtonAppStore from "../../../public/assets/img/btn-app-store.png";
 import Explore from "@/components/sections/explore";
 import AboutUs from "@/components/sections/about-us";
 import PopularMenu from "@/components/sections/popular-menu";

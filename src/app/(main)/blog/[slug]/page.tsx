@@ -8,7 +8,7 @@ import {
 } from "react-icons/ri";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Articles from "@/components/articles";
-import ArticlesData from "../../../../public/json/articles.json";
+import ArticlesData from "../../../../../public/json/articles.json";
 
 export default function DetailBlog({ params }: { params: { slug: string } }) {
   const data = ArticlesData.find(
@@ -26,7 +26,7 @@ export default function DetailBlog({ params }: { params: { slug: string } }) {
           <div className="mt-4 flex items-center justify-center space-x-3">
             <Image
               className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-              src={require(`../../../../public/assets/img/avatar-1.png`)}
+              src={`../../../../public/assets/img/avatar-1.png`}
               alt="avatar"
             />
             <div className="space-y-1.5 text-start">

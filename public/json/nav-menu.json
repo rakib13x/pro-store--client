@@ -16,8 +16,8 @@
 		"pathname": "/blog"
 	},
 	{
-		"title": "Pages",
-		"pathname": "/pages",
+		"title": "Contact",
+		"pathname": "/contact",
 		"submenu": [
 			{
 				"title": "Detail Menu",

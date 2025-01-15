@@ -27,9 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${figtree.variable} ${fredoka.variable}`}>
         <NextTopLoader color="#DB6885" height={5} />
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

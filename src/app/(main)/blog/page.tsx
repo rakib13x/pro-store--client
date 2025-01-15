@@ -1,6 +1,6 @@
 import Articles from "@/components/articles";
 import PageTitle from "@/components/page-title";
-import ArticlesData from "../../../public/json/articles.json";
+import ArticlesData from "../../../../public/json/articles.json";
 
 export default function Blog() {
   return (

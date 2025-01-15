@@ -82,18 +82,19 @@ const Navbar = () => {
               return (
                 <li key={index}>
                   {menu.submenu ? (
-                    <Menu as="div">
-                      <Menu.Button
-                        className={`${
-                          isActive
-                            ? "text-primary-100"
-                            : "text-secondary-100 hover:text-primary-100"
-                        } text-body-2-medium flex items-center space-x-0.5 transition`}
-                      >
-                        <span>{menu.title}</span>
-                        <MdKeyboardArrowDown />
-                      </Menu.Button>
-                      <Transition
+                    <Link href={menu.pathname}>
+                      <Menu as="div">
+                        <Menu.Button
+                          className={`${
+                            isActive
+                              ? "text-primary-100"
+                              : "text-secondary-100 hover:text-primary-100"
+                          } text-body-2-medium flex items-center space-x-0.5 transition`}
+                        >
+                          <span>{menu.title}</span>
+                          {/* <MdKeyboardArrowDown /> */}
+                        </Menu.Button>
+                        {/* <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
                         enterFrom="transform opacity-0 scale-95"
@@ -101,24 +102,25 @@ const Navbar = () => {
                         leave="transition ease-in duration-75"
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
-                      >
+                        >
                         <Menu.Items className="absolute mt-2 space-y-6 rounded-2xl bg-white p-5 drop-shadow-md">
-                          {menu.submenu.map((submenu, index) => (
-                            <Menu.Item key={index}>
-                              {({}) => (
-                                <Link
-                                  href={submenu.pathname}
-                                  onClick={() => setIsOpen(false)}
-                                  className="text-body-2-medium block text-secondary-100 hover:text-primary-100"
-                                >
-                                  {submenu.title}
-                                </Link>
-                              )}
+                        {menu.submenu.map((submenu, index) => (
+                          <Menu.Item key={index}>
+                          {({}) => (
+                            <Link
+                            href={submenu.pathname}
+                            onClick={() => setIsOpen(false)}
+                            className="text-body-2-medium block text-secondary-100 hover:text-primary-100"
+                            >
+                            {submenu.title}
+                            </Link>
+                            )}
                             </Menu.Item>
-                          ))}
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                            ))}
+                            </Menu.Items>
+                            </Transition> */}
+                      </Menu>
+                    </Link>
                   ) : (
                     <Link
                       href={menu.pathname}
@@ -167,15 +169,15 @@ const Navbar = () => {
             </li>
           </ul>
           <Link
-            href="/contact"
+            href="/signup"
             onClick={() => setIsOpen(false)}
             className={`${
-              pathname.startsWith("/contact")
+              pathname.startsWith("/signup")
                 ? "border-primary-100 bg-primary-100 text-white"
                 : "border-secondary-100 bg-transparent text-secondary-100 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
             } text-body-2-medium mt-6 rounded-[32px] border px-6 py-[10px] text-center transition duration-300 lg:mt-0`}
           >
-            Contact us
+            Sign up
           </Link>
         </div>
       </div>

@@ -7,7 +7,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import FoodSwiper from "@/components/food-swiper";
 import QuantityInput from "@/components/quantity-input";
 import PopularMenu from "@/components/sections/popular-menu";
-import FoodData from "../../../../public/json/food.json";
+import FoodData from "../../../../../public/json/food.json";
 
 interface Food {
   name: string | null;
