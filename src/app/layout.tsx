@@ -1,8 +1,10 @@
-import Navbar from "@/components/navbar";
+import ReduxProvider from "@/providers/ReduxProvider";
 import "./globals.css";
 import { Figtree, Fredoka } from "next/font/google";
-import Footer from "@/components/footer";
 import NextTopLoader from "nextjs-toploader";
+import Provider from "@/providers/Provider";
+import { Toaster } from "sonner";
+import AuthProvider from "@/providers/AuthProvider";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -27,7 +29,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${figtree.variable} ${fredoka.variable}`}>
         <NextTopLoader color="#DB6885" height={5} />
-        {children}
+        <ReduxProvider>
+          {" "}
+          <Provider>
+            <Toaster></Toaster>
+            <AuthProvider>{children}</AuthProvider>
+          </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );

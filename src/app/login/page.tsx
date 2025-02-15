@@ -1,9 +1,34 @@
+"use client";
+import { useUserlogin } from "@/hooks/auth.hook";
+import { FieldValues } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../public/assets/img/logo-color.png";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
 
-const page = () => {
+const LoginPage = () => {
+  const queryClient = useQueryClient();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { mutate } = useUserlogin();
+  const router = useRouter();
+
+  const onFromSubmit = async (data: FieldValues) => {
+    mutate(data, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+        router.push(`/`);
+        toast.success("Welcome back!");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message || "Something Went Wrong! Try again.");
+      },
+    });
+  };
+
   return (
     <div>
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
@@ -64,13 +89,20 @@ const page = () => {
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                     type="email"
                     placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <input
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                     type="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
-                  <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  <button
+                    onClick={() => onFromSubmit({ email, password })}
+                    className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  >
                     <svg
                       className="w-6 h-6 -ml-2"
                       fill="none"
@@ -83,25 +115,25 @@ const page = () => {
                       <circle cx="8.5" cy="7" r="4" />
                       <path d="M20 8v6M23 11h-6" />
                     </svg>
-                    <span className="ml-3">Log in </span>
+                    <span className="ml-3">Log in</span>
                   </button>
                   <p className="text-center mt-6">
                     Don&apos;t have an account?{" "}
                     <Link href="/signup">
                       <span className="cursor-pointer text-pink-500 mr-1 ">
-                        login
+                        Sign up
                       </span>
                     </Link>
                     here
                   </p>
                   <p className="mt-6 text-xs text-gray-600 text-center">
-                    I agree to abide by FoFood's
+                    I agree to abide by FoFood&apos;s
                     <a
                       href="#"
                       className="border-b border-gray-500 border-dotted"
                     >
                       Terms of Service
-                    </a>
+                    </a>{" "}
                     and its
                     <a
                       href="#"
@@ -129,4 +161,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default LoginPage;

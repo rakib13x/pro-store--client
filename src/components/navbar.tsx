@@ -1,25 +1,37 @@
 "use client";
-
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, Transition } from "@headlessui/react";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu } from "@headlessui/react";
 import { VscClose, VscMenu } from "react-icons/vsc";
 import { IoIosLogIn } from "react-icons/io";
 import { Buy, Heart } from "react-iconly";
 import Logo from "../../public/assets/img/logo-color.png";
 import navMenu from "../../public/json/nav-menu.json";
+import { useCurrentUser } from "@/hooks/auth.hook";
+import { logout } from "@/services/authService";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Navbar = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
+  // const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { data: userData, isLoading } = useCurrentUser();
+  const useLogOut = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [height, setHeight] = useState<any>(0);
   const ref = useRef<HTMLElement>(null);
+  const queryClient = useQueryClient();
+
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const handleProfileDropdown = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
 
   useEffect(() => {
     setHeight(ref.current?.clientHeight || 0);
@@ -40,6 +52,14 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [height]);
+
+  const logOutUser = async () => {
+    await logout();
+    useLogOut?.setIsLoading(true);
+    useLogOut?.setUser(null);
+    queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+    router.refresh();
+  };
 
   return (
     <nav
@@ -160,7 +180,12 @@ const Navbar = () => {
                 <span>My Favorites</span>
               </Link>
             </li>
-            <li className="hidden lg:block lg:px-14">
+          </ul>
+        </div>
+
+        <div className="flex items-center justify-center gap-10">
+          <div>
+            <div className="hidden lg:block">
               <Link
                 href="/my-cart"
                 onClick={() => setIsOpen(false)}
@@ -173,19 +198,96 @@ const Navbar = () => {
                 <Buy style={{ height: "20px" }} />
                 <span>My Cart</span>
               </Link>
-            </li>
-          </ul>
-          <Link
-            href="/signup"
-            onClick={() => setIsOpen(false)}
-            className={`${
-              pathname.startsWith("/signup")
-                ? "border-primary-100 bg-primary-100 text-white"
-                : "border-secondary-100 bg-transparent text-secondary-100 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
-            } text-body-2-medium mt-6 rounded-[32px] border px-6 py-[10px] text-center transition duration-300 lg:mt-0`}
-          >
-            Sign up
-          </Link>
+            </div>
+          </div>
+          <div>
+            {isLoading ? (
+              <div className="flex items-center justify-center h-10 w-10">
+                <svg
+                  className="animate-spin h-5 w-5 text-gray-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+              </div>
+            ) : userData ? (
+              <div className="relative lg:block hidden">
+                <div>
+                  <button
+                    type="button"
+                    className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    id="user-menu-button"
+                    aria-expanded={isProfileOpen ? "true" : "false"}
+                    aria-haspopup="true"
+                    onClick={handleProfileDropdown}
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={userData?.profilePhoto}
+                      alt="User profile"
+                    />
+                  </button>
+                </div>
+
+                {isProfileOpen && (
+                  <div
+                    className="absolute right-2 z-50 mt-2 w-32 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
+                  >
+                    <p
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                    >
+                      {userData?.userName}
+                    </p>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                    >
+                      Dashboard
+                    </a>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      onClick={logOutUser}
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/signup"
+                onClick={() => setIsOpen(false)}
+                className={`${
+                  pathname.startsWith("/signup")
+                    ? "border-primary-100 bg-primary-100 text-white"
+                    : "border-secondary-100 bg-transparent text-secondary-100 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
+                } text-body-2-medium mt-6 rounded-[32px] border px-6 py-[10px] text-center transition duration-300 lg:mt-0`}
+              >
+                Sign up
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </nav>
