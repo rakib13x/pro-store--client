@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { convertSlugToName } from "@/utils/helper";
 import { FaTelegramPlane } from "react-icons/fa";
 import {
@@ -24,7 +23,7 @@ export default function DetailBlog({ params }: { params: { slug: string } }) {
             {data?.title}
           </h2>
           <div className="mt-4 flex items-center justify-center space-x-3">
-            <Image
+            <img
               className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
               src={`../../../../public/assets/img/avatar-1.png`}
               alt="avatar"

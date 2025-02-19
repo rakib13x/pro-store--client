@@ -80,7 +80,7 @@ export default function PopularMenu() {
           ))}
         </div>
         <div className="mx-auto mt-10 w-fit lg:mt-20">
-          <button className="btn-pink-outline">See All Menu</button>
+          <Link href="/menu" className="btn-pink-outline">See All Menu</Link>
         </div>
       </div>
     </section>

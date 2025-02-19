@@ -61,6 +61,13 @@ const Navbar = () => {
     router.refresh();
   };
 
+  const getDashboardLink = (role: string) => {
+    if (role === "SUPERADMIN") {
+      return "/admin/dashboard";
+    }
+    return `/${role.toLowerCase()}/dashboard`;
+  };
+
   return (
     <nav
       ref={ref}
@@ -257,13 +264,13 @@ const Navbar = () => {
                     >
                       {userData?.userName}
                     </p>
-                    <a
-                      href="#"
+                    <Link
+                      href={getDashboardLink(userData?.role)}
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                     >
-                      Dashboard
-                    </a>
+                      dashboard
+                    </Link>
                     <button
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
