@@ -1,3 +1,4 @@
+export const locales = ['en', 'ar'];
 const config = {
   backendApi: process.env.NEXT_PUBLIC_API_URL,
   cloudinary_preset: process.env.NEXT_PUBLIC_CLOUDINARY_PRESET,

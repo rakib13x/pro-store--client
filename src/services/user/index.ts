@@ -13,7 +13,7 @@ export const getAllUser = async (
   page: number
 ) => {
   try {
-    const res = await axiosInstance.get(`/user`, {
+    const res = await axiosInstance.get(`/user/all-user`, {
       params: {
         searchTerm,
         isBlocked,
