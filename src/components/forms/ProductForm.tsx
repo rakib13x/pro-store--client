@@ -23,9 +23,12 @@ const productSchema = z.object({
       message: "Quantity must be non-negative!",
     })
   ),
-  categoryId: z.string().min(1, { message: "Category is required!" }),
+  category: z.string().min(1, { message: "Category is required!" }),
   productPhoto: z
     .instanceof(File, { message: "Product image is required" })
+    .optional(),
+  categoryPhoto: z
+    .instanceof(File, { message: "Category image is required" })
     .optional(),
 });
 
@@ -68,6 +71,13 @@ const ProductForm = ({
           error={errors?.name}
         />
         <InputField
+          label="Product Description"
+          name="description"
+          defaultValue={data?.name}
+          register={register}
+          error={errors?.name}
+        />
+        <InputField
           label="Price"
           name="price"
           type="number"
@@ -86,18 +96,11 @@ const ProductForm = ({
       </div>
       <div className="flex flex-wrap gap-4">
         <InputField
-          label="Description"
-          name="description"
-          defaultValue={data?.description}
+          label="Category Name"
+          name="category"
+          defaultValue={data?.category}
           register={register}
-          error={errors?.description}
-        />
-        <InputField
-          label="Category ID"
-          name="categoryId"
-          defaultValue={data?.categoryId}
-          register={register}
-          error={errors?.categoryId}
+          error={errors?.category}
         />
       </div>
       <div className="flex flex-col gap-2 w-full md:w-1/4">
@@ -117,6 +120,26 @@ const ProductForm = ({
         {errors.productPhoto?.message && (
           <p className="text-xs text-red-400">
             {errors.productPhoto.message.toString()}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col gap-2 w-full md:w-1/4">
+        <label
+          className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+          htmlFor="productPhoto"
+        >
+          <Image src="/upload.png" alt="" width={28} height={28} />
+          <span>Upload Category image</span>
+        </label>
+        <input
+          type="file"
+          id="categoryPhoto"
+          {...register("categoryPhoto")}
+          className="hidden"
+        />
+        {errors.categoryPhoto?.message && (
+          <p className="text-xs text-red-400">
+            {errors.categoryPhoto.message.toString()}
           </p>
         )}
       </div>
