@@ -13,11 +13,15 @@ import { JSX, useState } from "react";
 const ProductForm = dynamic(() => import("./forms/ProductForm"), {
   loading: () => <h1>Loading...</h1>,
 });
+const CategoryForm = dynamic(() => import("./forms/CategoryForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
 
 const forms: {
   [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
 } = {
   user: (type, data) => <ProductForm type={type} data={data} />,
+  category: (type, data) => <CategoryForm type={type} data={data} />,
 };
 
 const FormModal = ({
@@ -26,7 +30,7 @@ const FormModal = ({
   data,
   id,
 }: {
-  table: "user";
+  table: "user" | "category";
   type: "create" | "update" | "delete";
   data?: any;
   id?: number;

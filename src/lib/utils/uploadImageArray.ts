@@ -16,7 +16,7 @@ export const uploadImagesToCloudinary = async (files: FileList) => {
         `https://api.cloudinary.com/v1_1/${cloudinary_cloudname}/image/upload`,
         {
           method: "POST",
-          body: formData,
+          body: formData,       
         }
       );
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import config from "@/config";
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 
 const handleError = (error: any) => {
@@ -20,6 +21,19 @@ export const getAllProduct = async (
         });
 
         return res?.data;
+    } catch (error: any) {
+        handleError(error);
+    }
+};
+
+
+export const createProduct = async (productData: any) => {
+    try {
+        const { data } = await axiosInstance.post(
+            `${config.backendApi}/product/create-product`,
+            productData
+        );
+        return data;
     } catch (error: any) {
         handleError(error);
     }
