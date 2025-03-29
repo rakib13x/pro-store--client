@@ -6,22 +6,16 @@ import TableSearch from "@/components/TableSearch";
 import useDebounce from "@/lib/utils/useDebounce";
 import Image from "next/image";
 import { useState } from "react";
-// import { toast } from "sonner";
-
-import { useGetAllProducts } from "@/hooks/product.hook";
+import { toast } from "sonner"; // Import the toast function
+import { useDeleteCategory } from "@/hooks/category.hook"; // Import the delete hook
 import Loading from "../all-products/Loading";
+import { useGetAllCategories } from "@/hooks/category.hook";
 
-type Product = {
-  productId: string;
+type Category = {
+  categoryId: string;
   name: string;
-  description: string;
-  price: number;
   quantity: number;
-  productPhoto: string;
-  category: {
-    name: string;
-    image: string;
-  };
+  image: string;
 };
 
 const columns = [
@@ -39,23 +33,31 @@ const AllCategories = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const searchTermText = useDebounce(searchTerm, 500);
-  const { data: allProductData, isLoading } = useGetAllProducts(
+  const { data: allCategoryData, isLoading } = useGetAllCategories(
     searchTermText,
     currentPage
   );
 
-  console.log(allProductData);
+  const { mutate: deleteCategory } = useDeleteCategory(); // Use the deleteCategory mutation hook
 
-  const renderRow = (item: Product) => (
+  const handleDelete = async (categoryId: string) => {
+    try {
+      await deleteCategory(categoryId); // Call delete function with categoryId
+      toast.success("Category deleted successfully!"); // Show success toast
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Failed to delete category."); // Show error toast if deletion fails
+    }
+  };
+
+  const renderRow = (item: Category) => (
     <tr
-      key={item.productId}
+      key={item.categoryId}
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">
         <Image
-          src={
-            item.productPhoto ? `/${item.productPhoto}` : "/default-user.png"
-          }
+          src={item.image ? `/${item.image}` : "/default-user.png"}
           alt="User Avatar"
           width={40}
           height={40}
@@ -68,13 +70,10 @@ const AllCategories = () => {
       <td className="hidden md:table-cell p-4">{item.quantity}</td>
       <td className="p-4">
         <div className="flex items-center gap-2">
-          <button
-            // onClick={() => handleBlockUnblock(item.id, item.isBlocked)}
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
-          >
+          <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
             <Image
               src="/update.png"
-              alt="Unblock"
+              alt="Update"
               width={20}
               height={20}
               className="text-red-500"
@@ -82,12 +81,12 @@ const AllCategories = () => {
           </button>
 
           <button
-            // onClick={() => handleBlockUnblock(item.id, item.isBlocked)}
+            onClick={() => handleDelete(item.categoryId)} // Trigger delete on button click
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
             <Image
               src="/delete.png"
-              alt="Block"
+              alt="Delete"
               width={20}
               height={20}
               className="text-red-500"
@@ -111,12 +110,6 @@ const AllCategories = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="flex items-center gap-4 self-end">
-            {/* <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
-              <Image src="/filter.png" alt="Filter" width={14} height={14} />
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
-              <Image src="/sort.png" alt="Sort" width={14} height={14} />
-            </button> */}
             <FormModal table="category" type="create" />
           </div>
         </div>
@@ -129,12 +122,12 @@ const AllCategories = () => {
           <Table
             columns={columns}
             renderRow={renderRow}
-            data={allProductData?.data || []}
+            data={allCategoryData?.data || []}
           />
 
           <Pagination
             currentPage={currentPage}
-            totalPage={allProductData?.meta?.totalPage || 1}
+            totalPage={allCategoryData?.meta?.totalPage || 1}
             onPageChange={setCurrentPage}
           />
         </>

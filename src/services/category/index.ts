@@ -37,3 +37,13 @@ export const getAllCategories = async (
         handleError(error);
     }
 };
+
+
+export const deleteCategory = async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`/category/${id}`);
+      return res?.data;
+    } catch (error: any) {
+      handleError(error);
+    }
+  };
