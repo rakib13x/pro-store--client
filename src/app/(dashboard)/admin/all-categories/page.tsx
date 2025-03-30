@@ -38,15 +38,15 @@ const AllCategories = () => {
     currentPage
   );
 
-  const { mutate: deleteCategory } = useDeleteCategory(); // Use the deleteCategory mutation hook
+  const { mutate: deleteCategory } = useDeleteCategory();
 
   const handleDelete = async (categoryId: string) => {
     try {
-      await deleteCategory(categoryId); // Call delete function with categoryId
-      toast.success("Category deleted successfully!"); // Show success toast
+      await deleteCategory(categoryId);
+      toast.success("Category deleted successfully!");
     } catch (error) {
       console.error("Error deleting category:", error);
-      toast.error("Failed to delete category."); // Show error toast if deletion fails
+      toast.error("Failed to delete category.");
     }
   };
 
@@ -81,7 +81,7 @@ const AllCategories = () => {
           </button>
 
           <button
-            onClick={() => handleDelete(item.categoryId)} // Trigger delete on button click
+            onClick={() => handleDelete(item.categoryId)}
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
             <Image

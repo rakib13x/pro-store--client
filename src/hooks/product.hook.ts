@@ -3,12 +3,11 @@
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IUser } from "@/interface/user.interface";
 import { queryClient } from "@/providers/Provider";
-import { addProduct, getAllProduct } from "@/services/product";
-import { deleteUser, updatePass } from "@/services/user";
+import { addProduct, deleteProduct, getAllProduct } from "@/services/product";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 
-// Fetch all users with optional filters
+
 export const useGetAllProducts = (search: string, page: number) =>
     useQuery<IApiResponse<IUser[]>>({
         queryKey: ["get-all-productdata", search, page],
@@ -19,7 +18,6 @@ export const useGetAllProducts = (search: string, page: number) =>
 const invalidateAllProductData = () =>
     queryClient.invalidateQueries({ queryKey: ["get-all-productdata"] });
 
-// create a Product
 export const useCreateProduct = () => {
     return useMutation<any, Error, FieldValues>({
         mutationFn: addProduct,
@@ -27,14 +25,10 @@ export const useCreateProduct = () => {
     });
 };
 
-// Delete a user mutation
-export const useDeleteUser = () =>
+
+export const useDeleteProduct = () =>
     useMutation<any, Error, string>({
-        mutationFn: deleteUser
+        mutationFn: deleteProduct,
+        onSuccess: invalidateAllProductData,
     });
 
-// Update password mutation
-export const useUpdatePass = () =>
-    useMutation<any, Error, { password: string }>({
-        mutationFn: updatePass,
-    });

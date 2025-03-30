@@ -43,15 +43,25 @@ export const createProduct = async (productData: any) => {
 
 export const addProduct = async (data: FieldValues) => {
     try {
-      const res = await axiosInstance.post(
-        `${config.backendApi}/product/create-product`,
-        data
-    );
-      return res.data;
+        const res = await axiosInstance.post(
+            `${config.backendApi}/product/create-product`,
+            data
+        );
+        return res.data;
     } catch (error) {
-      handleError(error);
+        handleError(error);
     }
-  };
+};
+
+
+export const deleteProduct = async (id: string) => {
+    try {
+        const res = await axiosInstance.delete(`/product/${id}`);
+        return res?.data;
+    } catch (error: any) {
+        handleError(error);
+    }
+};
 
 export const blockUser = async (id: string) => {
     try {
