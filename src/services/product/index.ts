@@ -3,6 +3,7 @@
 
 import config from "@/config";
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
+import { FieldValues } from "react-hook-form";
 
 const handleError = (error: any) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
@@ -38,6 +39,19 @@ export const createProduct = async (productData: any) => {
         handleError(error);
     }
 };
+
+
+export const addProduct = async (data: FieldValues) => {
+    try {
+      const res = await axiosInstance.post(
+        `${config.backendApi}/product/create-product`,
+        data
+    );
+      return res.data;
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
 export const blockUser = async (id: string) => {
     try {

@@ -3,7 +3,7 @@
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IUser } from "@/interface/user.interface";
 import { queryClient } from "@/providers/Provider";
-import { createProduct, getAllProduct } from "@/services/product";
+import { addProduct, getAllProduct } from "@/services/product";
 import { deleteUser, updatePass } from "@/services/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
@@ -16,21 +16,21 @@ export const useGetAllProducts = (search: string, page: number) =>
     });
 
 // Helper function to invalidate "get-all-userdata" query
-const invalidateAllUserData = () =>
+const invalidateAllProductData = () =>
     queryClient.invalidateQueries({ queryKey: ["get-all-productdata"] });
 
 // create a Product
 export const useCreateProduct = () => {
-    return useMutation<any, Error, FieldValues, unknown>({
-        mutationFn: (data: any) => createProduct(data),
+    return useMutation<any, Error, FieldValues>({
+        mutationFn: addProduct,
+        onSuccess: invalidateAllProductData
     });
 };
 
 // Delete a user mutation
 export const useDeleteUser = () =>
     useMutation<any, Error, string>({
-        mutationFn: deleteUser,
-        onSuccess: invalidateAllUserData,
+        mutationFn: deleteUser
     });
 
 // Update password mutation

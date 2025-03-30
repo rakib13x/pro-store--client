@@ -6,8 +6,8 @@ import TableSearch from "@/components/TableSearch";
 import useDebounce from "@/lib/utils/useDebounce";
 import Image from "next/image";
 import { useState } from "react";
-import { toast } from "sonner"; // Import the toast function
-import { useDeleteCategory } from "@/hooks/category.hook"; // Import the delete hook
+import { toast } from "sonner";
+import { useDeleteCategory } from "@/hooks/category.hook";
 import Loading from "../all-products/Loading";
 import { useGetAllCategories } from "@/hooks/category.hook";
 
@@ -57,8 +57,8 @@ const AllCategories = () => {
     >
       <td className="flex items-center gap-4 p-4">
         <Image
-          src={item.image ? `/${item.image}` : "/default-user.png"}
-          alt="User Avatar"
+          src={item?.image || "/default-user.png"}
+          alt="Category Image"
           width={40}
           height={40}
           className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
