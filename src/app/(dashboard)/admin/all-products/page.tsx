@@ -6,10 +6,9 @@ import TableSearch from "@/components/TableSearch";
 import useDebounce from "@/lib/utils/useDebounce";
 import Image from "next/image";
 import { useState } from "react";
-// import { toast } from "sonner";
-
 import Loading from "./Loading";
-import { useGetAllProducts } from "@/hooks/product.hook";
+import { useDeleteProduct, useGetAllProducts } from "@/hooks/product.hook";
+import { toast } from "sonner";
 
 type Product = {
   productId: string;
@@ -49,7 +48,16 @@ const AllProducts = () => {
     currentPage
   );
 
-  console.log(allProductData);
+  const { mutate: deleteProduct } = useDeleteProduct();
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct(productId);
+      toast.success("Product deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product.");
+    }
+  };
 
   const renderRow = (item: Product) => (
     <tr
@@ -89,7 +97,7 @@ const AllProducts = () => {
           </button>
 
           <button
-            // onClick={() => handleBlockUnblock(item.id, item.isBlocked)}
+            onClick={() => handleDeleteProduct(item.productId)}
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
             <Image
