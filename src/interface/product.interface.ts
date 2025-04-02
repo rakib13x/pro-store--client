@@ -1,41 +1,24 @@
-import { IReview } from "./review.interface";
-import { IShop } from "./shop.interface";
-
-interface IProductCategory {
+// Type for the Category
+interface ICategoryProduct {
   categoryId: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
 }
+
 export interface IProduct {
   productId: string;
   name: string;
-  price: number;
-  categoryId: string;
-  images: string[];
   description: string;
-  stock: number;
-  sizes: string[];
-  shopId: string;
-  discounts: number;
-  createdAt: Date;
-  updatedAt: Date;
-  category: IProductCategory;
-  shop: IShop;
-  flashSale?: IDiscount[];
-  averageRating?: number;
-  totalReview?: number;
-  Review?: IReview[];
-  relatedProduct: IProduct[];
-}
-
-export interface IDiscount {
-  id: string;
-  productId: string;
-  discount: number;
-  startAt: string;
-  endAt: string;
+  price: number;
+  quantity: number;
+  isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-  product: IProduct;
+  productPhoto: string;
+  categoryId: string;
+  category: ICategoryProduct;
 }
+

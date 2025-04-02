@@ -9,33 +9,52 @@ const handleError = (error: any) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
 };
 
-export const getAllProduct = async (
-    searchTerm: string,
-    page: number
-) => {
+export const getAllProduct = async (searchTerm: string, page: number, categoryId: string | null) => {
     try {
-        const res = await axiosInstance.get(`/product/allproducts`, {
-            params: {
-                searchTerm,
-                page,
-            },
+        const params: Record<string, any> = {
+            searchTerm,
+            page,
+        };
+
+        // Only include categoryId if it's not null
+        if (categoryId) {
+            params.categoryId = categoryId;
+        }
+
+        console.log("Fetching products with params:", params);
+
+        const res = await axiosInstance.get("/product/allproducts", {
+            params: params,
         });
 
         return res?.data;
-    } catch (error: any) {
-        handleError(error);
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        throw error;
     }
 };
 
 
-export const createProduct = async (productData: any) => {
+
+// export const createProduct = async (productData: any) => {
+//     try {
+//         const { data } = await axiosInstance.post(
+//             `${config.backendApi}/product/create-product`,
+//             productData
+//         );
+//         return data;
+//     } catch (error: any) {
+//         handleError(error);
+//     }
+// };
+
+
+
+export const singleProduct = async (id: string) => {
     try {
-        const { data } = await axiosInstance.post(
-            `${config.backendApi}/product/create-product`,
-            productData
-        );
-        return data;
-    } catch (error: any) {
+        const res = await axiosInstance.get(`/product/${id}`);
+        return res.data;
+    } catch (error) {
         handleError(error);
     }
 };

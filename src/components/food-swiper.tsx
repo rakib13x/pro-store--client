@@ -5,7 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 
-const FoodSwiper = ({ images }: { images: string[] }) => {
+// Update the prop type to handle string or array
+const FoodSwiper = ({ images }: { images: string | string[] }) => {
+  // Convert to array if string is provided
+  const imageArray = Array.isArray(images) ? images : [images];
+
   return (
     <Swiper
       modules={[Pagination]}
@@ -16,10 +20,10 @@ const FoodSwiper = ({ images }: { images: string[] }) => {
         bulletActiveClass: "!bg-primary-100",
       }}
     >
-      {images.map((image, index) => (
+      {imageArray.map((image, index) => (
         <SwiperSlide key={index}>
           <Image
-            src={`/assets/img/${image}`}
+            src={image.startsWith("http") ? image : `/assets/img/${image}`}
             alt="Food Preview Image"
             width={500}
             height={500}
