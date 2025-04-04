@@ -8,9 +8,12 @@ import FoodSwiper from "@/components/food-swiper";
 import QuantityInput from "@/components/quantity-input";
 import PopularMenu from "@/components/sections/popular-menu";
 import { useGetAllProducts, useSingleProduct } from "@/hooks/product.hook";
+import { useDispatch } from "react-redux";
+import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
 
 export default function ProductDetails({ params }: { params: { id: string } }) {
   const [productId, setProductId] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const slug = params.id;
 
   const { data: allProductsResponse } = useGetAllProducts("", 1, null);
@@ -34,6 +37,36 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   const { data: { data: product } = {}, isLoading } = useSingleProduct(
     productId || ""
   );
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    if (product) {
+      console.log("Starting addToCart process...");
+      console.log("Product being added:", product);
+      console.log("Selected quantity:", quantity);
+
+      const cartItem: ICartItem = {
+        productId: product.productId,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        productPhoto: product.productPhoto,
+        categoryId: product.categoryId,
+        description: product.description,
+      };
+
+      console.log("Cart item being dispatched:", cartItem);
+      dispatch(addItemToCart(cartItem));
+      console.log("Item added to cart successfully");
+    } else {
+      console.error("Cannot add to cart: Product is undefined");
+    }
+  };
+
+  // Handle quantity change from QuantityInput
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+  };
 
   console.log("Fetched Product:", product);
 
@@ -71,10 +104,12 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
             </p>
             <div className="mt-6 flex space-x-3">
               <h5 className="text-heading-5 flex space-x-3">Quantity:</h5>
-              <QuantityInput />
+              <QuantityInput count={quantity} setCount={handleQuantityChange} />
             </div>
             <div className="mt-6 flex space-x-6">
-              <button className="btn-pink-solid grow">Add to Cart</button>
+              <button className="btn-pink-solid grow" onClick={handleAddToCart}>
+                Add to Cart
+              </button>
               <button
                 className="btn-pink-outline !p-3"
                 // onClick={() =>
