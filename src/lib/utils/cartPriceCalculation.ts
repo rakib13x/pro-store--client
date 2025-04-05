@@ -15,7 +15,7 @@ export const cartItemCalculation = (
 
   // Calculate total item-level discounts
   const itemLevelDiscount = cartItems.reduce(
-    (acc, item) => acc + item.quantity * (item.price * (item.discount / 100)),
+    (acc, item) => acc + item.quantity * item.price * 0.01,
     0
   );
 
