@@ -53,3 +53,33 @@ export const updatePass = async (data: { password: string }) => {
     handleError(error);
   }
 };
+
+
+export const updateShippingAddress = async (data: any) => {
+  try {
+    // Make sure userID is included in the request
+    if (!data.userID) {
+      throw new Error("User ID is required");
+    }
+
+    const res = await axiosInstance.patch(`/user/update-shipping-address`, data);
+    return res?.data;
+  } catch (error: any) {
+    console.error("Error updating shipping address:", error);
+    throw new Error(error?.response?.data?.message || "Failed to update shipping address");
+  }
+};
+
+export const updatePaymentMethod = async (data: any) => {
+  try {
+    if (!data.userID) {
+      throw new Error("User ID is required");
+    }
+
+    const res = await axiosInstance.patch(`/user/update-payment-method`, data);
+    return res?.data;
+  } catch (error: any) {
+    console.error("Error updating payment method:", error);
+    throw new Error(error?.response?.data?.message || "Failed to update shipping address");
+  }
+}

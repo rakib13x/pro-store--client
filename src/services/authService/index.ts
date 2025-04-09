@@ -102,3 +102,41 @@ export const logout = async () => {
     handleError(error);
   }
 };
+
+
+export const getServerSideUserData = async () => {
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    // Use jwtDecode instead of verifyToken
+    const decoded = jwtDecode<{
+      userID: string;
+      userEmail: string;
+      userName: string;
+      role: string;
+      mobile: number;
+      profilePhoto: any;
+      address: any;
+      paymentMethod: string;
+    }>(token);
+
+    // Return the decoded user data
+    return {
+      id: decoded.userID,
+      email: decoded.userEmail,
+      name: decoded.userName,
+      role: decoded.role,
+      mobile: decoded.mobile,
+      profilePhoto: decoded.profilePhoto,
+      address: decoded.address,
+      paymentMethod: decoded.paymentMethod
+    };
+  } catch (error) {
+    console.error("Error getting user data from token:", error);
+    throw new Error("Failed to get user data");
+  }
+};
