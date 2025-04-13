@@ -10,16 +10,43 @@ import {
   increaseItem,
   decreaseItem,
   removeItemFromCart,
+  setUserCart,
 } from "@/redux/features/cartSlice/cartSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useCurrentUser } from "@/hooks/auth.hook";
 
 export default function MyCart() {
   const { cartItems, subTotal, totalPriceBeforeDiscount, totalDiscount } =
     useAppSelector((state) => state.cartSlice);
-
   console.log("Sub Total Price is:", subTotal);
   const dispatch = useAppDispatch();
   const [couponCode, setCouponCode] = useState("");
+
+  const { data: currentUser } = useCurrentUser(); // Using the current user data from the hook
+  console.log("Current User:", currentUser?.userID);
+  useEffect(() => {
+    const fetchUserCart = () => {
+      if (currentUser?.userID) {
+        // Ensure that userId exists
+        const userId = currentUser.userID; // Get the logged-in user's ID from the decoded token
+        const cartData = localStorage.getItem(`cart_${userId}`); // Directly use userId here
+
+        if (cartData) {
+          const parsedCartData = JSON.parse(cartData);
+          // Dispatch the setUserCart action to update the Redux store with the cart data
+          dispatch(setUserCart(parsedCartData));
+        } else {
+          // If no cart data, ensure the Redux state is empty
+          dispatch(setUserCart([]));
+        }
+      }
+    };
+
+    // Fetch the user's cart data if the currentUser is available
+    if (currentUser) {
+      fetchUserCart();
+    }
+  }, [dispatch, currentUser]);
 
   // Calculate item total price
   const calculateItemTotal = (price: number, quantity: number) => {
@@ -41,7 +68,11 @@ export default function MyCart() {
 
   // Handle remove item from cart
   const handleRemoveItem = (productId: string) => {
-    dispatch(removeItemFromCart(productId));
+    if (currentUser?.userID) {
+      // Ensure userId exists
+      console.log("Removing item with productId:", productId);
+      dispatch(removeItemFromCart({ productId, userId: currentUser.userID }));
+    }
   };
 
   // Handle apply coupon
@@ -56,7 +87,6 @@ export default function MyCart() {
   return (
     <>
       <PageTitle bgColor="bg-white" path="My Cart" title="My Cart" />
-
       <div className="container">
         <p className="text-red-blue">{cartItems.length} items in cart</p>
         <div className="pb-20 pt-10 lg:py-24">
@@ -142,7 +172,6 @@ export default function MyCart() {
                   </div>
                 ))}
               </div>
-
               {/* Desktop View */}
               <table className="hidden w-full table-auto lg:table">
                 <thead>
@@ -226,7 +255,6 @@ export default function MyCart() {
                   ))}
                 </tbody>
               </table>
-
               <div className="mt-12 flex flex-col space-y-10 lg:flex-row lg:justify-between">
                 <div>
                   <h6 className="text-heading-6 text-secondary-100">Coupon</h6>

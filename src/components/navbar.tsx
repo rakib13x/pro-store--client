@@ -54,11 +54,21 @@ const Navbar = () => {
   }, [height]);
 
   const logOutUser = async () => {
-    await logout();
-    useLogOut?.setIsLoading(true);
-    useLogOut?.setUser(null);
-    queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-    router.refresh();
+    try {
+      await logout();
+
+      localStorage.removeItem(`cart_${userData?.userId}`); //
+
+      // Clear user state
+      useLogOut?.setIsLoading(true);
+      useLogOut?.setUser(null);
+
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
+      router.push("/");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   const getDashboardLink = (role: string) => {

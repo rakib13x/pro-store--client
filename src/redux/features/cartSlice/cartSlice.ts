@@ -37,15 +37,37 @@ const initialState: ICartState = {
   couponId: "",
 };
 
+// Helper function to get user-specific localStorage key
+export const getUserCartKey = (userId: string | null) => {
+  return userId ? `cart_${userId}` : null;
+};
+
+// Helper function to save cart to localStorage
+export const saveCartToLocalStorage = (userId: string | null, cartItems: ICartItem[]) => {
+  const cartKey = getUserCartKey(userId);
+  if (cartKey) {
+    localStorage.setItem(cartKey, JSON.stringify(cartItems));
+  }
+};
+
+// Helper function to clear cart from localStorage
+export const clearCartFromLocalStorage = (userId: string | null) => {
+  const cartKey = getUserCartKey(userId);
+  if (cartKey) {
+    localStorage.removeItem(cartKey);
+  }
+};
+
 export const cartSlice = createSlice({
   name: "cartSlice",
   initialState,
   reducers: {
-    addItemToCart: (state, action: PayloadAction<ICartItem>) => {
-      const { productId, quantity } = action.payload;
+    addItemToCart: (state, action: PayloadAction<{ item: ICartItem, userId?: string | null | undefined }>) => {
+      const { item, userId } = action.payload;
+      const { productId, quantity } = item;
 
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.productId === productId
+        (cartItem) => cartItem.productId === productId
       );
 
       if (itemIndex !== -1) {
@@ -53,7 +75,7 @@ export const cartSlice = createSlice({
         state.cartItems[itemIndex].quantity += quantity;
       } else {
         // Add new item to the cart
-        state.cartItems.push(action.payload);
+        state.cartItems.push(item);
       }
 
       // Recalculate prices
@@ -62,11 +84,15 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+
+      // Save to localStorage with user-specific key
+      saveCartToLocalStorage(userId ?? null, state.cartItems);
     },
 
-    increaseItem: (state, action: PayloadAction<{ productId: string }>) => {
+    increaseItem: (state, action: PayloadAction<{ productId: string, userId: string | null }>) => {
+      const { productId, userId } = action.payload;
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.productId === action.payload.productId
+        (item) => item.productId === productId
       );
 
       if (itemIndex !== -1) {
@@ -80,11 +106,15 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+
+      // Save to localStorage with user-specific key
+      saveCartToLocalStorage(userId, state.cartItems);
     },
 
-    decreaseItem: (state, action: PayloadAction<{ productId: string }>) => {
+    decreaseItem: (state, action: PayloadAction<{ productId: string, userId: string | null }>) => {
+      const { productId, userId } = action.payload;
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.productId === action.payload.productId
+        (item) => item.productId === productId
       );
 
       if (itemIndex !== -1) {
@@ -104,12 +134,16 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+
+      // Save to localStorage with user-specific key
+      saveCartToLocalStorage(userId, state.cartItems);
     },
 
-    removeItemFromCart: (state, action: PayloadAction<string>) => {
+    removeItemFromCart: (state, action: PayloadAction<{ productId: string, userId: string | null }>) => {
+      const { productId, userId } = action.payload;
       // Filter out the item by productId
       state.cartItems = state.cartItems.filter(
-        (item) => item.productId !== action.payload
+        (item) => item.productId !== productId
       );
 
       // Recalculate prices
@@ -118,11 +152,15 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+
+      // Save to localStorage with user-specific key
+      saveCartToLocalStorage(userId, state.cartItems);
     },
 
-    setAdditionalDiscount: (state, action: PayloadAction<number>) => {
+    setAdditionalDiscount: (state, action: PayloadAction<{ discount: number, userId: string | null }>) => {
+      const { discount, userId } = action.payload;
       // Update additional discount
-      state.additionalDiscount = action.payload;
+      state.additionalDiscount = discount;
 
       // Recalculate prices
       const priceData = cartItemCalculation(
@@ -130,9 +168,50 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+
+      // Save to localStorage with user-specific key
+      saveCartToLocalStorage(userId, state.cartItems);
     },
 
-    resetCart: () => initialState, // Reset the cart to its initial state
+    resetCart: (state, action: PayloadAction<string | null>) => {
+      const userId = action.payload;
+      // Clear from localStorage
+      clearCartFromLocalStorage(userId);
+      // Reset state to initial
+      return initialState;
+    },
+
+    setUserCart: (state, action: PayloadAction<ICartItem[]>) => {
+      state.cartItems = action.payload;
+      const priceData = cartItemCalculation(
+        state.cartItems,
+        state.additionalDiscount
+      );
+      Object.assign(state, priceData);
+    },
+
+    loadUserCart: (state, action: PayloadAction<string | null>) => {
+      const userId = action.payload;
+      if (userId) {
+        const cartKey = getUserCartKey(userId);
+        const storedCart = cartKey ? localStorage.getItem(cartKey) : null;
+
+        if (storedCart) {
+          state.cartItems = JSON.parse(storedCart);
+          const priceData = cartItemCalculation(
+            state.cartItems,
+            state.additionalDiscount
+          );
+          Object.assign(state, priceData);
+        } else {
+          // Reset to empty cart if no stored cart found
+          Object.assign(state, initialState);
+        }
+      } else {
+        // Reset to empty cart if no userId
+        Object.assign(state, initialState);
+      }
+    },
 
     setCategoryId: (state, action: PayloadAction<string>) => {
       state.categoryId = action.payload;
@@ -152,7 +231,8 @@ export const cartSlice = createSlice({
       state.pendingItem = undefined;
     },
 
-    clearCartAndAddItem: (state) => {
+    clearCartAndAddItem: (state, action: PayloadAction<string | null>) => {
+      const userId = action.payload;
       if (state.pendingItem) {
         state.cartItems = [state.pendingItem];
         state.pendingItem = undefined;
@@ -164,6 +244,9 @@ export const cartSlice = createSlice({
           state.additionalDiscount
         );
         Object.assign(state, priceData);
+
+        // Save to localStorage with user-specific key
+        saveCartToLocalStorage(userId, state.cartItems);
       }
     }
   },
@@ -181,7 +264,9 @@ export const {
   setCouponId,
   showConflictDialog,
   hideConflictDialog,
-  clearCartAndAddItem
+  clearCartAndAddItem,
+  setUserCart,
+  loadUserCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

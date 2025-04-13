@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { convertSlugToName } from "@/utils/helper";
@@ -10,6 +9,8 @@ import PopularMenu from "@/components/sections/popular-menu";
 import { useGetAllProducts, useSingleProduct } from "@/hooks/product.hook";
 import { useDispatch } from "react-redux";
 import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
+import { toast } from "sonner"; 
+import { useCurrentUser } from "@/hooks/auth.hook";
 
 export default function ProductDetails({ params }: { params: { id: string } }) {
   const [productId, setProductId] = useState<string | null>(null);
@@ -18,6 +19,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
   const { data: allProductsResponse } = useGetAllProducts("", 1, null);
   const allProducts = allProductsResponse?.data;
+  const { data: currentUser } = useCurrentUser();
 
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
@@ -40,7 +42,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    if (product) {
+    if (product && product.productId) {
       console.log("Starting addToCart process...");
       console.log("Product being added:", product);
       console.log("Selected quantity:", quantity);
@@ -56,10 +58,18 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
       };
 
       console.log("Cart item being dispatched:", cartItem);
-      dispatch(addItemToCart(cartItem));
+
+      // Assuming you have the userId available (you can retrieve it from the current user context or state)
+      const userId = currentUser?.userID || null; // Replace with actual userId if available
+
+      // Dispatch action with both cartItem and userId
+      dispatch(addItemToCart({ item: cartItem, userId }));
+
+      // Show success toast notification using sonner
+      toast.success("Item added to cart successfully!");
       console.log("Item added to cart successfully");
     } else {
-      console.error("Cannot add to cart: Product is undefined");
+      console.error("Cannot add to cart: Product or productId is undefined");
     }
   };
 

@@ -8,11 +8,11 @@ export interface IOrder {
   total: number;
   discounts: number;
   subTotal: number;
-  status: "PENDING" | "ONGOING" | "DELIVERED"; // Adjust based on possible statuses
-  paymentStatus: "PENDING" | "COMPLETED" | "FAILED"; // Adjust as needed
+  status: "PENDING" | "ONGOING" | "DELIVERED";
+  paymentStatus: "PENDING" | "COMPLETED" | "FAILED";
   transactionId: string;
-  createdAt: string; // ISO Date string
-  updatedAt: string; // ISO Date string
+  createdAt: string;
+  updatedAt: string;
   items: IOrderItem[];
   customer?: ICustomer;
 }
