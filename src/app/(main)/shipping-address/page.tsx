@@ -6,6 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function ShippingAddressPage() {
-  // No Redux or useQuery here — just render the client component
   return <ShippingClient />;
 }

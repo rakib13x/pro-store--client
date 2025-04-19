@@ -3,11 +3,14 @@
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IUser } from "@/interface/user.interface";
 import { queryClient } from "@/providers/Provider";
-import { blockUser, deleteUser, getAllUser, updatePass, updatePaymentMethod, updateShippingAddress } from "@/services/user";
+import { blockUser, deleteUser, getAllUser, getUserById, updatePass, updatePaymentMethod, updateShippingAddress } from "@/services/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "./auth.hook";
 
 
+
+const invalidateAllCurrentUserData = () =>
+  queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
 // Fetch all users with optional filters
 export const useGetAllUser = (search: string, block: string, page: number) =>
@@ -42,7 +45,10 @@ export const useUpdatePass = () =>
 
 export const useUpdateShippingAddress = () => {
   return useMutation({
-    mutationFn: (data: { address: any }) => updateShippingAddress(data.address)
+    mutationFn: (data: { address: any }) => updateShippingAddress(data.address),
+    onSuccess: () => {
+      invalidateAllCurrentUserData();
+    }
   });
 };
 
@@ -54,6 +60,18 @@ export const useUpdatePaymentMethod = () => {
       updatePaymentMethod({
         type: data.paymentMethod,
         userID: userData?.userID
-      })
+      }),
+    onSuccess: () => {
+      invalidateAllCurrentUserData();
+    }
+  });
+};
+
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: ["get-user-by-id", userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
   });
 };

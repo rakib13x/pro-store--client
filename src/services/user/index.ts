@@ -83,3 +83,14 @@ export const updatePaymentMethod = async (data: any) => {
     throw new Error(error?.response?.data?.message || "Failed to update shipping address");
   }
 }
+
+
+
+export const getUserById = async (userId: string) => {
+  try {
+    const res = await axiosInstance.get(`/user/${userId}`);
+    return res?.data;
+  } catch (error: any) {
+    handleError(error);
+  }
+};

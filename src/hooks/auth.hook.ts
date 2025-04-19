@@ -1,4 +1,5 @@
 "use client";
+import { queryClient } from "@/providers/Provider";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createUser,
@@ -9,6 +10,9 @@ import {
 } from "@/services/authService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
+
+const invalidateAllCurrentUserData = () =>
+  queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues, unknown>({

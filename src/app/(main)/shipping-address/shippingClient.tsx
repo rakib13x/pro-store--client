@@ -24,6 +24,7 @@ const ShippingClient = () => {
   if (!userId) return <p>No user found</p>;
 
   const address = userData?.address;
+  console.log("user address is:", address);
 
   return (
     <>

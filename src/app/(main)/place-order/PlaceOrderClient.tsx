@@ -19,26 +19,32 @@ import PlaceOrderForm from "./place-order-form";
 import { useCurrentUser } from "@/hooks/auth.hook";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useGetUserById } from "@/hooks/user.hook";
 
 const PlaceOrderClient = () => {
   const { cartItems } = useSelector((state: RootState) => state.cartSlice);
-  const { data: userData, isLoading } = useCurrentUser();
-  const userID = userData?.userID;
+  const { data: userData, isLoading: userLoading } = useCurrentUser();
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!userID) return <p>No user found</p>;
+  const userId = userData?.userID;
 
-  const user = userData;
+  const { data: userLatestData, isLoading: userDataLoading } =
+    useGetUserById(userId);
+
+  if (userLoading || userDataLoading) return <p>Loading...</p>;
+  if (!userId) return <p>No user found</p>;
+
+  const user = userLatestData?.data;
+  console.log("getting latest user", user);
+
+  if (!user) return <p>User data not found</p>;
 
   const userAddress = (user.address as any)?.upsert?.update as ShippingAddress;
-  console.log("user address:", userAddress);
-  console.log("user paymentMethod:", user.paymentMethod);
-  console.log("cartItems:", cartItems.length);
+
+
   if (cartItems.length === 0) redirect("/cart");
   if (!userAddress) redirect("/shipping-address");
   if (!user.paymentMethod) redirect("/payment-method");
 
-  // Calculate prices
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.quantity, 0);
   const shippingPrice = itemsPrice > 200 ? 0 : 15;
   const taxPrice = Math.round(0.15 * itemsPrice * 100) / 100;

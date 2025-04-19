@@ -28,6 +28,12 @@ const menuItems = [
         visible: ["admin", "teacher"],
       },
       {
+        icon: product,
+        label: "My Order",
+        href: "/customer/my-orders",
+        visible: ["admin", "teacher"],
+      },
+      {
         icon: "/student.png",
         label: "All Users",
         href: "/admin/all-user",
