@@ -1,4 +1,5 @@
 import ActionlessAreaChart from "@/components/charts/actionless-area-chart";
+import TopCustomer from "@/components/top-customer";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { IndianRupee } from "lucide-react";
@@ -19,7 +20,7 @@ const Dashboard = ({ className, ...props }: Props) => {
         <div className="px-6">
           <div className="flex items-center pr-2.5">
             <IndianRupee className="w-7 h-7 text-icon" />
-            <p className="text-lg font-semibold">Your Orders</p>
+            <p className="text-lg font-semibold">Total Orders</p>
           </div>
 
           <div className="flex items-end justify-between">
@@ -52,7 +53,7 @@ const Dashboard = ({ className, ...props }: Props) => {
         <div className="px-6 border-x border-border">
           <div className="flex items-center pr-2.5">
             <IndianRupee className="w-7 h-7 text-icon" />
-            <p className="text-lg font-semibold">Total Spent</p>
+            <p className="text-lg font-semibold">Total Income</p>
           </div>
 
           <div className="flex items-end justify-between">
@@ -85,7 +86,7 @@ const Dashboard = ({ className, ...props }: Props) => {
         <div className="px-6">
           <div className="flex items-center pr-2.5">
             <IndianRupee className="w-7 h-7 text-icon" />
-            <p className="text-lg font-semibold">Favorite Items</p>
+            <p className="text-lg font-semibold">Total Customer</p>
           </div>
 
           <div className="flex items-end justify-between">
@@ -115,6 +116,9 @@ const Dashboard = ({ className, ...props }: Props) => {
           </div>
         </div>
       </Card>
+      <div>
+        <TopCustomer />
+      </div>
     </div>
   );
 };
