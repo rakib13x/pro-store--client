@@ -69,6 +69,33 @@ export const getOrderById = async (id: string) => {
     }
 };
 
+export const getMyOrders = async () => {
+    try {
+        const token = (await cookies()).get("accessToken")?.value;
+        console.log("Token:", token);
+
+        if (!token) {
+            throw new Error("No authentication token found");
+        }
+
+        const authHeader = `Bearer ${token}`;
+        console.log("Authorization header:", authHeader);
+
+        const res = await axiosInstance.get('/order/my-orders', {
+            headers: {
+                Authorization: authHeader
+            }
+        });
+
+        return res.data;
+    } catch (error: any) {
+        console.error("Order API Error:", error);
+        console.error("Response data:", error.response?.data);
+        console.error("Status code:", error.response?.status);
+        throw new Error(error?.response?.data?.message || error?.message || "Failed to fetch orders");
+    }
+};
+
 
 export const createPaymentIntent = async (orderId: string): Promise<IApiResponse<any>> => {
     try {

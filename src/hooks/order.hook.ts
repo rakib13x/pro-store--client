@@ -2,12 +2,11 @@
 "use client";
 
 import { queryClient } from "@/providers/Provider";
-import { createPaymentIntent, getOrderById, createOrder as serverCreateOrder, verifyPayment } from "@/services/order";
+import { createPaymentIntent, getMyOrders, getOrderById, createOrder as serverCreateOrder, verifyPayment } from "@/services/order";
 import { useMutation, UseMutationResult, useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { IApiResponse } from "@/interface/apiResponse.interface";
-// import { IOrder } from "@/interface/order.interface";
 
 const invalidateAllOrderData = () =>
     queryClient.invalidateQueries({ queryKey: ["all-orders"] });
@@ -53,5 +52,12 @@ export const useVerifyPayment = (): UseMutationResult<
     return useMutation({
         mutationFn: verifyPayment,
         onSuccess: invalidateAllOrderData,
+    });
+};
+
+export const useGetMyOrders = () => {
+    return useQuery<IApiResponse<any>>({
+        queryKey: ["my-orders"],
+        queryFn: getMyOrders,
     });
 };

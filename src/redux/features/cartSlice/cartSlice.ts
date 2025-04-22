@@ -52,12 +52,14 @@ export const saveCartToLocalStorage = (userId: string | null, cartItems: ICartIt
 
 // Helper function to clear cart from localStorage
 export const clearCartFromLocalStorage = (userId: string | null) => {
-  const cartKey = getUserCartKey(userId);
+  const cartKey = getUserCartKey(userId); // It returns cart_<userId> key
   if (cartKey) {
-    localStorage.removeItem(cartKey);
+    localStorage.removeItem(cartKey);  // Clear the cart from localStorage
+  } else {
+    // If no userId, clear the default cart
+    localStorage.removeItem('cart'); // Make sure this key exists
   }
 };
-
 export const cartSlice = createSlice({
   name: "cartSlice",
   initialState,

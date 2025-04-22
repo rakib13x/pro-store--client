@@ -1,14 +1,13 @@
 "use client";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import OrderDetailsTable from "./order-details-table";
 import { ShippingAddress } from "@/types";
 import { useCreatePaymentIntent, useGetOrderById } from "@/hooks/order.hook";
 import { useCurrentUser } from "@/hooks/auth.hook";
 import { useEffect, useState } from "react";
 
-// Update the props type to correctly handle the id
 const OrderClient = ({ params }: { params: Promise<{ id: string }> }) => {
-  // Move all state and hooks to the top level
+
   const [orderId, setOrderId] = useState<string>("");
   const [isResolvingId, setIsResolvingId] = useState(true);
   const { data: userData, isLoading: userLoading } = useCurrentUser();
@@ -19,7 +18,6 @@ const OrderClient = ({ params }: { params: Promise<{ id: string }> }) => {
     isPending: isCreatingIntent,
   } = useCreatePaymentIntent();
 
-  // First useEffect to resolve the params and set orderId
   useEffect(() => {
     const resolveParams = async () => {
       try {
