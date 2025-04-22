@@ -1,4 +1,5 @@
 import ActionlessAreaChart from "@/components/charts/actionless-area-chart";
+import Sales from "@/components/sales";
 import TopCustomer from "@/components/top-customer";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -116,8 +117,9 @@ const Dashboard = ({ className, ...props }: Props) => {
           </div>
         </div>
       </Card>
-      <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
         <TopCustomer />
+        <Sales />
       </div>
     </div>
   );
