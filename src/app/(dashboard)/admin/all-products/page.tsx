@@ -9,6 +9,7 @@ import { useState } from "react";
 import Loading from "./Loading";
 import { useDeleteProduct, useGetAllProducts } from "@/hooks/product.hook";
 import { toast } from "sonner";
+import { Category } from "react-iconly";
 
 type Product = {
   productId: string;
@@ -45,7 +46,7 @@ const AllProducts = () => {
   const searchTermText = useDebounce(searchTerm, 500);
   const { data: allProductData, isLoading } = useGetAllProducts(
     searchTermText,
-    currentPage
+    currentPage,
   );
 
   const { mutate: deleteProduct } = useDeleteProduct();
