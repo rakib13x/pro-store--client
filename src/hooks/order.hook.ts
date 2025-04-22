@@ -55,9 +55,14 @@ export const useVerifyPayment = (): UseMutationResult<
     });
 };
 
-export const useGetMyOrders = () => {
+export const useGetMyOrders = (
+    page: number = 1, 
+    limit: number = 10, 
+    searchTerm: string = ""
+  ) => {
     return useQuery<IApiResponse<any>>({
-        queryKey: ["my-orders"],
-        queryFn: getMyOrders,
+      queryKey: ["my-orders", page, limit, searchTerm],
+      queryFn: () => getMyOrders(page, limit, searchTerm),
     });
-};
+  };
+  
