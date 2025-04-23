@@ -3,7 +3,7 @@
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IProduct } from "@/interface/product.interface";
 import { queryClient } from "@/providers/Provider";
-import { addProduct, deleteProduct, getAllProduct, singleProduct } from "@/services/product";
+import { addProduct, deleteProduct, fetchTopSellingProducts, getAllProduct, singleProduct } from "@/services/product";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 
@@ -24,6 +24,13 @@ export const useGetAllProducts = (search: string, page: number, categoryId: stri
         queryFn: () => getAllProduct(search, page, categoryId),
     });
 };
+
+
+export const useGetTopSellingProducts = () =>
+    useQuery<IApiResponse<IProduct[]>>({
+        queryKey: ["top-selling-products"],
+        queryFn: () => fetchTopSellingProducts(),
+    })
 
 
 export const useSingleProduct = (id: string) => {

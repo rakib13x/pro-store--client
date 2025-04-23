@@ -2,6 +2,8 @@
 "use server";
 
 import config from "@/config";
+import { IApiResponse } from "@/interface/apiResponse.interface";
+import { IProduct } from "@/interface/product.interface";
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 import { FieldValues } from "react-hook-form";
 
@@ -32,6 +34,11 @@ export const getAllProduct = async (searchTerm: string, page: number, categoryId
         console.error("Error fetching products:", error);
         throw error;
     }
+};
+
+export const fetchTopSellingProducts = async (): Promise<IApiResponse<IProduct[]>> => {
+    const { data } = await axiosInstance.get("/product/top-selling-products");
+    return data;
 };
 
 

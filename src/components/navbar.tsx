@@ -13,10 +13,15 @@ import { useCurrentUser } from "@/hooks/auth.hook";
 import { logout } from "@/services/authService";
 import { AuthContext } from "@/providers/AuthProvider";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAppSelector } from "@/redux/hooks";
 
 const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const { cartItems } = useAppSelector((state) => state.cartSlice);
+  const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  console.log("number of cart items", count);
   // const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { data: userData, isLoading } = useCurrentUser();
   const useLogOut = useContext(AuthContext);
@@ -93,9 +98,12 @@ const Navbar = () => {
           <div className="flex items-center space-x-2 lg:hidden">
             <Link
               href="/my-cart"
-              className="rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
+              className="relative rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
             >
               <Buy style={{ height: "21px" }} />
+              <span className="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                5
+              </span>
             </Link>
             <Link
               href="/signup"
@@ -203,7 +211,7 @@ const Navbar = () => {
         <div className="flex items-center justify-center gap-10">
           <div>
             <div className="hidden lg:block">
-              <Link
+              {/* <Link
                 href="/my-cart"
                 onClick={() => setIsOpen(false)}
                 className={`${
@@ -213,7 +221,47 @@ const Navbar = () => {
                 } text-body-2-medium flex items-center space-x-1 transition`}
               >
                 <Buy style={{ height: "20px" }} />
-                <span>My Cart</span>
+
+                <span
+                  className="absolute top-[30%] right-[11.5%] -mt-1 -mr-1  
+                     bg-red-600 w-5 h-5 rounded-full 
+                     flex items-center justify-center 
+                     text-xs text-white font-mono"
+                >
+                  {count}
+                </span>
+              </Link> */}
+              <Link href="/my-cart" onClick={() => setIsOpen(false)}>
+                <button
+                  className="py-4 px-1 relative border-2 border-transparent text-gray-800 rounded-full hover:text-gray-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out"
+                  aria-label="Cart"
+                >
+                  <svg
+                    className={`${
+                      pathname.startsWith("/my-cart")
+                        ? "text-primary-100"
+                        : "text-black"
+                    } h-6 w-6`}
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                  {count > 0 && (
+                    <span
+                      className="absolute top-0 right-0 mt-1 -mr-1  
+                     bg-red-600 w-5 h-5 rounded-full 
+                     flex items-center justify-center 
+                     text-xs text-white font-mono"
+                    >
+                      {count}
+                    </span>
+                  )}
+                </button>
               </Link>
             </div>
           </div>

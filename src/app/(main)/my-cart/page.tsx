@@ -88,7 +88,6 @@ export default function MyCart() {
     <>
       <PageTitle bgColor="bg-white" path="My Cart" title="My Cart" />
       <div className="container">
-        <p className="text-red-blue">{cartItems.length} items in cart</p>
         <div className="pb-20 pt-10 lg:py-24">
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
