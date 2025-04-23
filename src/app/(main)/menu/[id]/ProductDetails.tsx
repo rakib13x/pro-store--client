@@ -9,17 +9,29 @@ import PopularMenu from "@/components/sections/popular-menu";
 import { useGetAllProducts, useSingleProduct } from "@/hooks/product.hook";
 import { useDispatch } from "react-redux";
 import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/auth.hook";
+import Loader from "@/components/Loader";
 
 export default function ProductDetails({ params }: { params: { id: string } }) {
   const [productId, setProductId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const slug = params.id;
+  // Add artificial loading state
+  // const [artificialLoading, setArtificialLoading] = useState(true);
 
   const { data: allProductsResponse } = useGetAllProducts("", 1, null);
   const allProducts = allProductsResponse?.data;
   const { data: currentUser } = useCurrentUser();
+
+  // // Set up artificial 1-minute loading delay
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setArtificialLoading(false);
+  //   }, 60000); // 60 seconds = 1 minute
+
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
@@ -36,10 +48,12 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
     }
   }, [allProducts, slug]);
 
-  const { data: { data: product } = {}, isLoading } = useSingleProduct(
-    productId || ""
-  );
+  const { data: { data: product } = {}, isLoading: apiLoading } =
+    useSingleProduct(productId || "");
   const dispatch = useDispatch();
+
+  // Combine the real loading state with our artificial one
+  // const isLoading = apiLoading || artificialLoading;
 
   const handleAddToCart = () => {
     if (product && product.productId) {
@@ -80,11 +94,21 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
   console.log("Fetched Product:", product);
 
-  if (isLoading) {
-    return <div className="container pt-36">Loading product details...</div>;
+  if (apiLoading) {
+    return (
+      <div className="text-center py-10 grid place-items-center mt-40">
+        <Loader />
+        {/* <p className="mt-4 text-gray-500">Loading product details...</p>
+        {artificialLoading && (
+          <p className="mt-2 text-sm text-gray-400">
+            (Testing extended loading state - will complete in 1 minute)
+          </p>
+        )} */}
+      </div>
+    );
   }
 
-  if (!product && !isLoading) {
+  if (!product && !apiLoading) {
     return <div className="container pt-36">Product not found</div>;
   }
 
