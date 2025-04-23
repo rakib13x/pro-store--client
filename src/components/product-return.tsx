@@ -1,16 +1,8 @@
 import { cn } from "@/lib/utils";
-import { nanoid } from "nanoid";
 import { MoreHorizontal } from "lucide-react";
-import { DivProps, SVGProps } from "react-html-props";
-
-import Linkedin from "@/components/icons/linkedin";
-
+import { DivProps } from "react-html-props";
 import { Button } from "@/components/ui/button";
-
-import Twitter from "./icons/twitter";
-import Dribble from "./icons/dribble";
 import LineChart from "./charts/line-chart";
-import { JSX } from "react";
 
 const ReturningRate = ({ className, ...props }: DivProps) => {
   return (
@@ -54,54 +46,5 @@ const ReturningRate = ({ className, ...props }: DivProps) => {
     </div>
   );
 };
-
-// REACT CHART CATEGORIES LABEL
-const chartSeries = [{ name: "Tasks", data: [0, 30, 16, 70, 26, 30, 12] }];
-
-interface visitorsProps {
-  id: string;
-  title: string;
-  category: string;
-  rate: number;
-  visit: number;
-  Icon: (props: SVGProps) => JSX.Element;
-  chart: { series: unknown[] };
-}
-
-const visitors: visitorsProps[] = [
-  {
-    id: nanoid(),
-    Icon: Dribble,
-    title: "Dribbble",
-    category: "Community",
-    rate: 70,
-    visit: 12350,
-    chart: {
-      series: chartSeries,
-    },
-  },
-  {
-    id: nanoid(),
-    Icon: Linkedin,
-    title: "Linked In",
-    category: "Social Media",
-    rate: 60,
-    visit: 10275,
-    chart: {
-      series: chartSeries,
-    },
-  },
-  {
-    id: nanoid(),
-    Icon: Twitter,
-    title: "Twitter",
-    category: "Social Media",
-    rate: 50,
-    visit: 20348,
-    chart: {
-      series: chartSeries,
-    },
-  },
-];
 
 export default ReturningRate;
