@@ -6,8 +6,10 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 import { logout } from "@/services/authService";
+import { MdOutlineCategory } from "react-icons/md";
 
-const product = <AiOutlineProduct className="text-gray-300 text-2xl " />;
+const product = <AiOutlineProduct className="text-gray-400 text-2xl " />;
+const category = <MdOutlineCategory className="text-gray-400 text-2xl " />;
 
 interface MenuItem {
   icon: string | ReactNode;
@@ -42,7 +44,7 @@ const AdminMenuItems: MenuSection[] = [
         isButton: false,
       },
       {
-        icon: product,
+        icon: category,
         label: "All Categories",
         href: "/admin/all-categories",
         visible: ["admin", "teacher"],

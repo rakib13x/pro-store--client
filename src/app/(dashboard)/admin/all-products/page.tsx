@@ -9,7 +9,8 @@ import { useState } from "react";
 import Loading from "./Loading";
 import { useDeleteProduct, useGetAllProducts } from "@/hooks/product.hook";
 import { toast } from "sonner";
-import { Category } from "react-iconly";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
 
 type Product = {
   productId: string;
@@ -43,11 +44,14 @@ const columns = [
 const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryId] = useState<string | null>(null);
   const searchTermText = useDebounce(searchTerm, 500);
   const { data: allProductData, isLoading } = useGetAllProducts(
     searchTermText,
     currentPage,
+    categoryId
   );
+  console.log("allProductData:", allProductData);
 
   const { mutate: deleteProduct } = useDeleteProduct();
   const handleDeleteProduct = async (productId: string) => {
@@ -67,9 +71,7 @@ const AllProducts = () => {
     >
       <td className="flex items-center gap-4 p-4">
         <Image
-          src={
-            item.productPhoto ? `/${item.productPhoto}` : "/default-user.png"
-          }
+          src={item?.productPhoto}
           alt="User Avatar"
           width={40}
           height={40}
@@ -88,26 +90,28 @@ const AllProducts = () => {
             // onClick={() => handleBlockUnblock(item.id, item.isBlocked)}
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
-            <Image
+            {/* <Image
               src="/update.png"
               alt="Unblock"
               width={20}
               height={20}
               className="text-red-500"
-            />
+            /> */}
+            <FaRegEdit className="text-2xl" />
           </button>
 
           <button
             onClick={() => handleDeleteProduct(item.productId)}
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
-            <Image
+            {/* <Image
               src="/delete.png"
               alt="Block"
               width={20}
               height={20}
               className="text-red-500"
-            />
+            /> */}
+            <RiDeleteBinLine className="text-2xl" />
           </button>
         </div>
       </td>

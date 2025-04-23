@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Tab } from "@headlessui/react";
@@ -9,36 +10,35 @@ import { convertNameToSlug } from "@/utils/helper";
 import { useGetAllProducts } from "@/hooks/product.hook";
 import { useGetAllCategories } from "@/hooks/category.hook";
 import DiscountBanner from "../discount-banner";
+import Loader from "../Loader";
 
 export default function FoodMenu() {
   const [search] = useState("");
   const [page] = useState(1);
 
-  // State to track selected category
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
 
-  // Fetch full category list from a separate endpoint/hook.
-  // This hook should hit something like GET /api/v1/category/all
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetAllCategories();
+  const { data: categoriesData } = useGetAllCategories(search, page);
 
-  // Fetch product data with selected category filter.
-  // The hook's queryKey must include selectedCategoryId so that it refetches automatically.
   const { data: ProductData, isLoading: isProductsLoading } = useGetAllProducts(
     search,
     page,
     selectedCategoryId
   );
 
-  // Build the categories array. Assume categoriesData.data is an array of objects:
-  // { categoryId, name, image }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const categories = categoriesData?.data || [];
 
-  // Calculate the selected tab index:
-  // "All" is always at index 0; then the full category list follows.
+  const totalProductCount = useMemo(() => {
+    if (!categories.length) return 0;
+    return categories.reduce((sum: number, category: any) => {
+      return sum + (category._count?.product || 0);
+    }, 0);
+  }, [categories]);
+
   const findSelectedTabIndex = () => {
     if (selectedCategory === "All") return 0;
     const index = categories.findIndex(
@@ -47,7 +47,6 @@ export default function FoodMenu() {
     return index === -1 ? 0 : index + 1;
   };
 
-  // Handle category change: update state. The product hook will automatically refetch when the queryKey changes.
   const handleCategoryChange = (
     categoryName: string,
     categoryId: string | null
@@ -55,6 +54,47 @@ export default function FoodMenu() {
     console.log(`Changing category to: ${categoryName}, ID: ${categoryId}`);
     setSelectedCategory(categoryName);
     setSelectedCategoryId(categoryId);
+  };
+
+  const renderProducts = () => {
+    if (isProductsLoading) {
+      return (
+        <div className="text-center py-10 grid place-items-center mt-40">
+          <Loader />
+        </div>
+      );
+    }
+
+    return (
+      <div className="mt-8 grid grid-cols-2 gap-10 lg:grid-cols-3 lg:gap-16">
+        {ProductData?.data && ProductData.data.length > 0 ? (
+          ProductData.data.map((product: any) => (
+            <div key={product.productId} className="text-center">
+              <Image
+                src={product.productPhoto || ""}
+                width={200}
+                height={200}
+                alt={product.name}
+                className="mx-auto"
+              />
+              <Link
+                href={`menu/${convertNameToSlug(product.name)}`}
+                className="text-heading-6 lg:text-heading-5 mt-3 text-secondary-100 hover:text-primary-100 hover:underline"
+              >
+                {product.name}
+              </Link>
+              <h3 className="text-caption-2 text-primary-100">
+                ${product.price}
+              </h3>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-3 text-center py-10">
+            <p className="text-red-500">No products found in this category.</p>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -97,6 +137,13 @@ export default function FoodMenu() {
                       >
                         All
                       </h5>
+                      <span
+                        className={`${
+                          selected ? "text-white" : "text-primary-100"
+                        } text-caption-2 group-hover:text-white`}
+                      >
+                        {totalProductCount} Menu
+                      </span>
                     </div>
                   </button>
                 )}
@@ -125,6 +172,13 @@ export default function FoodMenu() {
                         >
                           {cat.name}
                         </h5>
+                        <span
+                          className={`${
+                            selected ? "text-white" : "text-primary-100"
+                          } text-caption-2 group-hover:text-white`}
+                        >
+                          {cat?._count.product} Menu
+                        </span>
                       </div>
                     </button>
                   )}
@@ -139,50 +193,27 @@ export default function FoodMenu() {
           {/* Food Items Section */}
           <div className="w-full lg:w-3/4">
             <Tab.Panels>
+              {/* Create a Tab.Panel for "All" category */}
               <Tab.Panel>
                 <div className="flex items-center justify-between">
                   <h3 className="text-heading-4 lg:text-heading-3 text-secondary-100">
-                    {selectedCategory} Menu
+                    All Menu
                   </h3>
                 </div>
-
-                {isProductsLoading ? (
-                  <div className="text-center py-10">
-                    <p>Loading products...</p>
-                  </div>
-                ) : (
-                  <div className="mt-8 grid grid-cols-2 gap-10 lg:grid-cols-3 lg:gap-16">
-                    {ProductData?.data && ProductData.data.length > 0 ? (
-                      ProductData.data.map((product: any) => (
-                        <div key={product.productId} className="text-center">
-                          <Image
-                            src={product.productPhoto || ""}
-                            width={200}
-                            height={200}
-                            alt={product.name}
-                            className="mx-auto"
-                          />
-                          <Link
-                            href={`menu/${convertNameToSlug(product.name)}`}
-                            className="text-heading-6 lg:text-heading-5 mt-3 text-secondary-100 hover:text-primary-100 hover:underline"
-                          >
-                            {product.name}
-                          </Link>
-                          <h3 className="text-caption-2 text-primary-100">
-                            ${product.price}
-                          </h3>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="col-span-3 text-center py-10">
-                        <p className="text-red-500">
-                          No products found in this category.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                {renderProducts()}
               </Tab.Panel>
+
+              {/* Create a Tab.Panel for each category */}
+              {categories.map((category: any) => (
+                <Tab.Panel key={category.categoryId}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-heading-4 lg:text-heading-3 text-secondary-100">
+                      {category.name} Menu
+                    </h3>
+                  </div>
+                  {renderProducts()}
+                </Tab.Panel>
+              ))}
             </Tab.Panels>
           </div>
         </div>

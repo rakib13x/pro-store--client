@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { useDeleteCategory } from "@/hooks/category.hook";
 import Loading from "../all-products/Loading";
 import { useGetAllCategories } from "@/hooks/category.hook";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
 
 type Category = {
   categoryId: string;
@@ -71,26 +73,14 @@ const AllCategories = () => {
       <td className="p-4">
         <div className="flex items-center gap-2">
           <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
-            <Image
-              src="/update.png"
-              alt="Update"
-              width={20}
-              height={20}
-              className="text-red-500"
-            />
+            <FaRegEdit className="text-2xl" />
           </button>
 
           <button
             onClick={() => handleDelete(item.categoryId)}
             className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky"
           >
-            <Image
-              src="/delete.png"
-              alt="Delete"
-              width={20}
-              height={20}
-              className="text-red-500"
-            />
+            <RiDeleteBinLine className="text-2xl" />
           </button>
         </div>
       </td>
