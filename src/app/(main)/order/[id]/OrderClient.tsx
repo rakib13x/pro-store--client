@@ -5,13 +5,14 @@ import { ShippingAddress } from "@/types";
 import { useCreatePaymentIntent, useGetOrderById } from "@/hooks/order.hook";
 import { useCurrentUser } from "@/hooks/auth.hook";
 import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 const OrderClient = ({ params }: { params: Promise<{ id: string }> }) => {
-
   const [orderId, setOrderId] = useState<string>("");
   const [isResolvingId, setIsResolvingId] = useState(true);
   const { data: userData, isLoading: userLoading } = useCurrentUser();
   const { data: orderData, isLoading: orderLoading } = useGetOrderById(orderId);
+  console.log("order data is:", orderData);
   const {
     mutate: createIntent,
     data: paymentIntentData,
@@ -38,16 +39,21 @@ const OrderClient = ({ params }: { params: Promise<{ id: string }> }) => {
     if (
       orderData?.data?.paymentMethod === "Stripe" &&
       orderData?.data?.paymentStatus === "PENDING" &&
-      !paymentIntentData && // Only create if we don't already have data
-      orderId !== "" // Make sure orderId is available
+      !paymentIntentData &&
+      orderId !== ""
     ) {
       createIntent(orderId);
     }
   }, [orderData, orderId, createIntent, paymentIntentData]);
 
-  // Combined loading state
   if (isResolvingId || orderId === "" || orderLoading || userLoading) {
-    return <div>Loading order details...</div>;
+    return (
+      <div>
+        <p className="flex justify-center items-center h-screen">
+          <Loader />
+        </p>
+      </div>
+    );
   }
 
   // Now we can safely use the data
@@ -72,8 +78,8 @@ const OrderClient = ({ params }: { params: Promise<{ id: string }> }) => {
             .update as ShippingAddress,
           orderitems: orderData.data.orderItems.map((item) => ({
             slug: item.productId,
-            name: `Product ${item.productId.substring(0, 6)}`,
-            image: "https://placehold.co/50x50",
+            name: item.product.name,
+            image: item.product.productPhoto,
             qty: item.quantity,
             price: item.price,
           })),

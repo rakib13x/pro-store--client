@@ -10,8 +10,10 @@ export const metadata: Metadata = {
 const PlaceOrderPage = async () => {
   return (
     <>
-      <CheckoutSteps current={3} />
-      <PlaceOrderClient />
+      <main className="flex-1 wrapper">
+        <CheckoutSteps current={3} />
+        <PlaceOrderClient />
+      </main>
     </>
   );
 };

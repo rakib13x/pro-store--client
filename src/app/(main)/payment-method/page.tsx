@@ -8,7 +8,9 @@ export const metadata: Metadata = {
 const PaymentMethodPage = async () => {
   return (
     <>
-      <PaymentClient />
+      <main className="flex-1 wrapper">
+        <PaymentClient />
+      </main>
     </>
   );
 };

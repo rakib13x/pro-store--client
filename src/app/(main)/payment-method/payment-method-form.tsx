@@ -62,7 +62,7 @@ const PaymentMethodForm = ({
             className="space-y-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col md:flex-row gap-5 text-lg">
               <FormField
                 control={form.control}
                 name="type"

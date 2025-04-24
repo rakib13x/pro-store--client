@@ -301,9 +301,11 @@ export default function MyCart() {
                       ${subTotal}
                     </span>
                   </div>
-                  <button className="btn-pink-solid mt-8 w-full">
-                    Checkout
-                  </button>
+                  <Link href="/shipping-address">
+                    <button className="btn-pink-solid mt-8 w-full">
+                      Checkout
+                    </button>
+                  </Link>
                   <Link
                     href="/menu"
                     className="text-body-3-medium mt-6 flex space-x-1 text-primary-100"

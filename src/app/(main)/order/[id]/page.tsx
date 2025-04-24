@@ -8,8 +8,10 @@ export const metadata: Metadata = {
 const page = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   return (
-    <div>
-      <OrderClient params={Promise.resolve({ id })} />
+    <div className=" ">
+      <main className="flex-1 wrapper pt-12">
+        <OrderClient params={Promise.resolve({ id })} />
+      </main>
     </div>
   );
 };

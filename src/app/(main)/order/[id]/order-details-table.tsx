@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 import Link from "next/link";
@@ -120,7 +119,7 @@ const OrderDetailsTable = ({
 
   return (
     <>
-      <h1 className="py-4 text-2xl">Order {formatId(id)}</h1>
+      <h1 className="py-4 text-2xl mt-20">Order {formatId(id)}</h1>
       <div className="grid md:grid-cols-3 md:gap-5">
         <div className="col-span-2 space-4-y overlow-x-auto">
           <Card>
@@ -194,7 +193,7 @@ const OrderDetailsTable = ({
             </CardContent>
           </Card>
         </div>
-        <div>
+        <div className="mt-2 md:mt-0">
           <Card>
             <CardContent className="p-4 gap-4 space-y-4">
               <div className="flex justify-between">

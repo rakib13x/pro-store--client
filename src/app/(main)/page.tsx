@@ -13,6 +13,7 @@ import AboutUs from "@/components/sections/about-us";
 import PopularMenu from "@/components/sections/popular-menu";
 import Testimonial from "@/components/sections/testimonial";
 import OurBlog from "@/components/sections/our-blog";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -40,7 +41,9 @@ export default function Home() {
               your door
             </p>
             <div className="mt-4 flex space-x-4 lg:mt-8">
-              <button className="btn-pink-solid">Order Now</button>
+              <Link href="/menu">
+                <button className="btn-pink-solid">Order Now</button>
+              </Link>
               <button className="btn-pink-outline">Learn More</button>
             </div>
             <div className="mt-8 flex items-center space-x-4 lg:mt-16">

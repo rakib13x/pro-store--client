@@ -6,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function ShippingAddressPage() {
-  return <ShippingClient />;
+  return (
+    <main className="flex-1 wrapper">
+      <ShippingClient />
+    </main>
+  );
 }

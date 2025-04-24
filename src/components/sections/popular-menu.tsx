@@ -26,7 +26,6 @@ export default function PopularMenu() {
     };
 
     dispatch(addItemToCart({ item: cartItem }));
-
     toast.success("Item added to cart successfully!");
   };
 
