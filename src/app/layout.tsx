@@ -5,6 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import Provider from "@/providers/Provider";
 import { Toaster } from "sonner";
 import AuthProvider from "@/providers/AuthProvider";
+import { HeroUIProvider } from "@heroui/react";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -29,13 +30,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${figtree.variable} ${fredoka.variable}`}>
         <NextTopLoader color="#DB6885" height={5} />
-        <ReduxProvider>
-          {" "}
-          <Provider>
-            <Toaster></Toaster>
-            <AuthProvider>{children}</AuthProvider>
-          </Provider>
-        </ReduxProvider>
+        <HeroUIProvider>
+          <ReduxProvider>
+            {" "}
+            <Provider>
+              <Toaster></Toaster>
+              <AuthProvider>{children}</AuthProvider>
+            </Provider>
+          </ReduxProvider>
+        </HeroUIProvider>
       </body>
     </html>
   );

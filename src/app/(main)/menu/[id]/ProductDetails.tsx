@@ -12,6 +12,7 @@ import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/auth.hook";
 import Loader from "@/components/Loader";
+import Review from "@/components/review";
 
 export default function ProductDetails({ params }: { params: { id: string } }) {
   const [productId, setProductId] = useState<string | null>(null);
@@ -140,10 +141,11 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
               <h5 className="text-heading-5 flex space-x-3">Quantity:</h5>
               <QuantityInput count={quantity} setCount={handleQuantityChange} />
             </div>
-            <div className="mt-6 flex space-x-6">
-              <button className="btn-pink-solid grow" onClick={handleAddToCart}>
+            <div className="mt-6 flex flex-row space-x-3 ">
+              <button className="btn-pink-solid2 " onClick={handleAddToCart}>
                 Add to Cart
               </button>
+              <Review />
               <button
                 className="btn-pink-outline !p-3"
                 // onClick={() =>

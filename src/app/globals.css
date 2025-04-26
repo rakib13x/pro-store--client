@@ -81,6 +81,9 @@
 	.btn-pink-solid {
 		@apply text-body-2-medium rounded-[32px] bg-primary-100 px-10 py-5 text-white shadow-lg shadow-[#AE1339]/30 transition duration-300 hover:bg-additional-yellow hover:text-secondary-100;
 	}
+	.btn-pink-solid2 {
+		@apply text-body-2-medium  bg-primary-100 px-12 text-nowrap py-1 rounded-3xl text-white shadow-lg shadow-[#AE1339]/30 transition duration-300 hover:bg-additional-yellow hover:text-secondary-100;
+	}
 	.btn-pink-outline {
 		@apply text-body-2-medium rounded-[32px] border border-primary-100 bg-transparent px-10 py-5 text-primary-100 transition duration-300 hover:bg-primary-100 hover:text-white;
 	}

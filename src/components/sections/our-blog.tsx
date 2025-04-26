@@ -1,7 +1,25 @@
-import ArticlesData from "../../../public/json/articles.json";
+"use client";
+import { useGetAllBlogs } from "@/hooks/blog.hook";
 import Articles from "../articles";
 
 export default function OurBlog() {
+  const { data: blogData } = useGetAllBlogs();
+  console.log("blog data is:", blogData);
+
+  // Map the data to match the required structure for the Articles component
+  const articles = blogData?.data?.slice(0, 3).map((blog) => ({
+    image: blog.image,
+    title: blog.title,
+    author: blog.author
+      ? {
+          name: blog.author.name,
+          image: blog.author.profilePhoto,
+        }
+      : null,
+    publishDate: blog.publishDate,
+    content: blog.content,
+  }));
+
   return (
     <section id="our-blog">
       <div className="pb-20 pt-10 lg:pb-36 lg:pt-20">
@@ -11,7 +29,8 @@ export default function OurBlog() {
         <h2 className="text-heading-4 lg:text-heading-2 mt-2 text-center">
           Latest Post
         </h2>
-        <Articles data={ArticlesData.slice(0, 3)} />
+        <Articles data={articles || []} />{" "}
+        {/* Passing the mapped articles data */}
       </div>
     </section>
   );
