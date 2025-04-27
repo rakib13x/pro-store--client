@@ -31,7 +31,6 @@ const FoodSwiper = ({ images }: { images: string | string[] }) => {
           />
         </SwiperSlide>
       ))}
-      <div className="bullet mt-8 flex justify-center space-x-3" />
     </Swiper>
   );
 };

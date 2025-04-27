@@ -13,8 +13,12 @@ import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/auth.hook";
 import Loader from "@/components/Loader";
 import Review from "@/components/review";
+import { useProductReviews } from "@/hooks/review.hook";
+import CardReview from "@/components/card-review";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetails({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const [productId, setProductId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const slug = params.id;
@@ -51,7 +55,13 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
   const { data: { data: product } = {}, isLoading: apiLoading } =
     useSingleProduct(productId || "");
+  const { data: reviewsData, isLoading } = useProductReviews(productId || "");
+  console.log("Reviews Data:", reviewsData);
   const dispatch = useDispatch();
+
+  const handleRedirect = () => {
+    router.push("/login");
+  };
 
   // Combine the real loading state with our artificial one
   // const isLoading = apiLoading || artificialLoading;
@@ -98,7 +108,9 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   if (apiLoading) {
     return (
       <div className="text-center py-10 grid place-items-center mt-40">
-        <Loader />
+        <p className="flex justify-center items-center h-screen">
+          <Loader />
+        </p>
         {/* <p className="mt-4 text-gray-500">Loading product details...</p>
         {artificialLoading && (
           <p className="mt-2 text-sm text-gray-400">
@@ -110,7 +122,14 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   }
 
   if (!product && !apiLoading) {
-    return <div className="container pt-36">Product not found</div>;
+    return (
+      <div className="container pt-36">
+        {" "}
+        <p className="flex justify-center items-center h-screen">
+          <Loader />
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -129,7 +148,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
               Price
             </h5>
             <span className="text-caption-2 text-primary-100">
-              {product?.price}
+              ${product?.price}
             </span>
             <h5 className="text-heading-5 mt-8 text-secondary-100">
               Description
@@ -141,11 +160,11 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
               <h5 className="text-heading-5 flex space-x-3">Quantity:</h5>
               <QuantityInput count={quantity} setCount={handleQuantityChange} />
             </div>
-            <div className="mt-6 flex flex-row space-x-3 ">
-              <button className="btn-pink-solid2 " onClick={handleAddToCart}>
+            <div className="mt-6 flex items-center space-x-3 ">
+              <button className="btn-pink-solid" onClick={handleAddToCart}>
                 Add to Cart
               </button>
-              <Review />
+
               <button
                 className="btn-pink-outline !p-3"
                 // onClick={() =>
@@ -160,6 +179,84 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div>
+        <div className="w-full flex flex-col gap-6">
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <Loader />
+            </div>
+          ) : reviewsData?.data?.length === 0 ? (
+            <div className="text-center py-8 text-black w-full">
+              <div className="flex items-center justify-between">
+                <h2 className="md:text-heading-3 text-heading-6 text-secondary-100">
+                  Customer Reviews
+                </h2>
+                {currentUser ? (
+                  <Review productId={productId} />
+                ) : (
+                  <div className="font-figtree font-semibold text-md tracking-tighter">
+                    Please{" "}
+                    <span
+                      className="cursor-pointer text-primary-100 hover:text-yellow-600 hover:underline"
+                      onClick={handleRedirect}
+                    >
+                      Log in
+                    </span>{" "}
+                    to review
+                  </div>
+                )}
+              </div>
+              <p>
+                {currentUser ? (
+                  "No reviews yet"
+                ) : (
+                  <>
+                    <p className="md:text-heading-3 text-heading-6 mt-8">
+                      No reviews yet
+                    </p>
+                  </>
+                )}
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-0">
+              <div className="flex items-center justify-between">
+                <h2 className="md:text-heading-3 text-heading-6 text-secondary-100">
+                  Customer Reviews
+                </h2>
+                {currentUser ? (
+                  <Review productId={productId} />
+                ) : (
+                  <div className="font-figtree font-semibold text-md tracking-tighter">
+                    Please{" "}
+                    <span
+                      className="cursor-pointer text-primary-100 hover:text-yellow-600 hover:underline"
+                      onClick={handleRedirect}
+                    >
+                      Log in
+                    </span>{" "}
+                    to review
+                  </div>
+                )}
+              </div>
+              {reviewsData?.data?.map((review) => (
+                <CardReview
+                  key={review.reviewId}
+                  user={{
+                    name: review.user.name,
+                    profilePhoto:
+                      review.user.profilePhoto || "/default-avatar.png",
+                  }}
+                  createdAt={review.createdAt}
+                  rating={review.rating}
+                  title={`Review by ${review.user.name}`}
+                  content={review.content}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
