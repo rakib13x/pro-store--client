@@ -79,7 +79,7 @@ const AdminMenuItems: MenuSection[] = [
       {
         icon: "/profile.png",
         label: "Profile",
-        href: "/profile",
+        href: "/admin/profile",
         visible: ["admin", "teacher", "student", "parent"],
         isButton: false,
       },
@@ -127,7 +127,7 @@ const UserMenuItems: MenuSection[] = [
       {
         icon: "/profile.png",
         label: "Profile",
-        href: "/profile",
+        href: "/customer/profile",
         visible: ["admin", "teacher", "student", "parent"],
         isButton: false,
       },
