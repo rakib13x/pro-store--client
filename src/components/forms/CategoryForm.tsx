@@ -43,9 +43,6 @@ const CategoryForm = ({
     resolver: zodResolver(categorySchema),
   });
 
-  
-
-
   // const onSubmit = handleSubmit(async (formData) => {
   //   if (formData.image && formData.image.length > 0) {
   //     const imageFile = formData.image[0];
@@ -85,32 +82,36 @@ const CategoryForm = ({
     const { image: imageFiles, ...otherData } = data;
     const imageUrls = await uploadImagesToCloudinary(imageFiles);
 
-  if (imageUrls && imageUrls.length > 0) {
-    // Pass only the first URL to the backend
-    const imageUrl = imageUrls[0]
+    if (imageUrls && imageUrls.length > 0) {
+      // Pass only the first URL to the backend
+      const imageUrl = imageUrls[0];
 
-    if (imageUrl) {
-      mutate(
-        { ...otherData, image: imageUrl },
-        {
-          onSuccess: () => {
-            toast.success("Category is Successfully added.");
-          },
-          onError: () => {
-            toast.error("Something went wrong! Try again.");
-          },
-        }
-      );
-    } else {
-      toast.error("Something went wrong! Try again.");
+      if (imageUrl) {
+        mutate(
+          { ...otherData, image: imageUrl },
+          {
+            onSuccess: () => {
+              toast.success("Category is Successfully added.");
+            },
+            onError: () => {
+              toast.error("Something went wrong! Try again.");
+            },
+          }
+        );
+      } else {
+        toast.error("Something went wrong! Try again.");
+      }
     }
-  } };
+  };
 
   return (
     <CForm onFromSubmit={onFromSubmit}>
+      <h1 className="text-xl font-semibold text-center">
+        {type === "create" ? "Create New Category" : "Update Category"}
+      </h1>
       <div className="grid gap-3">
         <CInput name="name" label="Category Name" type="text"></CInput>
-        <CImageInput name="image" label="Product Image"></CImageInput>
+        <CImageInput name="image" label="Category Image"></CImageInput>
 
         <CButton
           isPending={isPending}

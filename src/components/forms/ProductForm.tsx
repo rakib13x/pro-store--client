@@ -76,63 +76,59 @@ const ProductForm = ({
 
   console.log(CategoryData);
 
-const onFromSubmit = async (data: FieldValues) => {
-  const {
-    productPhoto: imageFiles,
-    categoryId,
-    price,
-    quantity,
-    ...otherData
-  } = data;
+  const onFromSubmit = async (data: FieldValues) => {
+    const {
+      productPhoto: imageFiles,
+      categoryId,
+      price,
+      quantity,
+      ...otherData
+    } = data;
 
-  // Ensure price and quantity are numbers
-  const parsedPrice = Number(price);
-  const parsedQuantity = Number(quantity);
+    // Ensure price and quantity are numbers
+    const parsedPrice = Number(price);
+    const parsedQuantity = Number(quantity);
 
-  if (isNaN(parsedPrice) || isNaN(parsedQuantity)) {
-    toast.error("Price and Quantity must be valid numbers.");
-    return;
-  }
-
-  // Upload the image and get the URL
-  const imageUrls = await uploadImagesToCloudinary(imageFiles);
-
-  if (imageUrls && imageUrls.length > 0) {
-    const imageUrl = imageUrls[0];
-
-    if (imageUrl) {
-      mutate(
-        {
-          ...otherData,
-          productPhoto: imageUrl,
-          categoryId,
-          price: parsedPrice,
-          quantity: parsedQuantity,
-        },
-        {
-          onSuccess: () => {
-            toast.success("Product created successfully.");
-          },
-          onError: () => {
-            toast.error("Something went wrong! Try again.");
-          },
-        }
-      );
-    } else {
-      toast.error("Something went wrong! Try again.");
+    if (isNaN(parsedPrice) || isNaN(parsedQuantity)) {
+      toast.error("Price and Quantity must be valid numbers.");
+      return;
     }
-  }
-};
 
+    // Upload the image and get the URL
+    const imageUrls = await uploadImagesToCloudinary(imageFiles);
+
+    if (imageUrls && imageUrls.length > 0) {
+      const imageUrl = imageUrls[0];
+
+      if (imageUrl) {
+        mutate(
+          {
+            ...otherData,
+            productPhoto: imageUrl,
+            categoryId,
+            price: parsedPrice,
+            quantity: parsedQuantity,
+          },
+          {
+            onSuccess: () => {
+              toast.success("Product created successfully.");
+            },
+            onError: () => {
+              toast.error("Something went wrong! Try again.");
+            },
+          }
+        );
+      } else {
+        toast.error("Something went wrong! Try again.");
+      }
+    }
+  };
 
   return (
     <CForm onFromSubmit={onFromSubmit}>
-      <h1 className="text-xl font-semibold">
+      <h1 className="text-xl font-semibold text-center">
         {type === "create" ? "Create New Product" : "Update Product"}
       </h1>
-      <span className="text-xs text-gray-400 font-medium">
-        Product Information
-      </span>
       <div className="flex flex-wrap gap-4">
         <CInput name="name" label="Product Name" type="text"></CInput>
         <CInput
@@ -163,15 +159,15 @@ const onFromSubmit = async (data: FieldValues) => {
       </div>
 
       {/* Product Image Upload */}
-      <div className="flex flex-col gap-2 w-full md:w-1/4">
+      <div className="flex flex-col mt-3 w-full md:w-1/4">
         <label
-          className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+          className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer text-nowrap"
           htmlFor="productPhoto"
         >
           <Image src="/upload.png" alt="Upload Icon" width={28} height={28} />
           <span>Upload product image</span>
         </label>
-        <CImageInput name="productPhoto" label="Product Image"></CImageInput>
+        <CImageInput name="productPhoto" label=""></CImageInput>
         {errors.productPhoto?.message && (
           <p className="text-xs text-red-400">
             {errors.productPhoto.message.toString()}
