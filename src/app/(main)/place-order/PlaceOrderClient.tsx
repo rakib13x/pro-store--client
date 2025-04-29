@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { ShippingAddress } from "@/types";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
@@ -41,11 +39,10 @@ const PlaceOrderClient = () => {
   if (!userId) return <p>No user found</p>;
 
   const user = userLatestData?.data;
-  console.log("getting latest user", user);
 
   if (!user) return <p>User data not found</p>;
 
-  const userAddress = (user.address as any)?.upsert?.update as ShippingAddress;
+  const userAddress = user.address;
 
   if (cartItems.length === 0) redirect("/cart");
   if (!userAddress) redirect("/shipping-address");

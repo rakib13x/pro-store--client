@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const DashBoardNavbar = () => {
   const { data: userData } = useCurrentUser();
-  console.log("useData:", userData);
+
   return (
     <div className="flex items-center justify-between p-4">
       {/* SEARCH BAR */}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,20 +14,14 @@ import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
-import { useTransition } from "react";
+
 import {
   PayPalButtons,
   PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-// import {
-//   createPayPalOrder,
-//   approvePayPalOrder,
-//   updateOrderToPaidCOD,
-//   deliverOrder,
-// } from "@/src/lib/actions/order.actions";
+
 import StripePayment from "./stripe-payment";
-import { toast } from "sonner";
 
 const OrderDetailsTable = ({
   order,
@@ -42,7 +37,7 @@ const OrderDetailsTable = ({
   const {
     id,
     shippingAddress,
-    orderitems,
+    orderItems,
     itemsPrice,
     shippingPrice,
     taxPrice,
@@ -64,57 +59,6 @@ const OrderDetailsTable = ({
       status = "Error Loading PayPal";
     }
     return status;
-  };
-
-  const handleCreatePayPalOrder = async () => {
-    // // const res = await createPayPalOrder(order.id);
-    // if (!res.success) {
-    //   toast.error(res.message);
-    // }
-    // return res.data;
-  };
-
-  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
-    // const res = await approvePayPalOrder(order.id, data);
-    // toast[res.success ? "success" : "error"](res.message);
-  };
-
-  // Button to mark order as paid
-  const MarkAsPaidButton = () => {
-    // const [isPending, startTransition] = useTransition();
-    // return (
-    //   <Button
-    //     type="button"
-    //     disabled={isPending}
-    //     onClick={() =>
-    //       startTransition(async () => {
-    //         const res = await updateOrderToPaidCOD(order.id);
-    //         toast[res.success ? "success" : "error"](res.message);
-    //       })
-    //     }
-    //   >
-    //     {isPending ? "processing..." : "Mark As Paid"}
-    //   </Button>
-    // );
-  };
-
-  // Button to mark order as delivered
-  const MarkAsDeliveredButton = () => {
-    // const [isPending, startTransition] = useTransition();
-    // return (
-    //   <Button
-    //     type="button"
-    //     disabled={isPending}
-    //     onClick={() =>
-    //       startTransition(async () => {
-    //         const res = await deliverOrder(order.id);
-    //         toast[res.success ? "success" : "error"](res.message);
-    //       })
-    //     }
-    //   >
-    //     {isPending ? "processing..." : "Mark As Delivered"}
-    //   </Button>
-    // );
   };
 
   return (
@@ -164,7 +108,7 @@ const OrderDetailsTable = ({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {orderitems.map((item) => (
+                  {orderItems.map((item: any) => (
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link
@@ -219,8 +163,7 @@ const OrderDetailsTable = ({
                   <PayPalScriptProvider options={{ clientId: paypalClientId }}>
                     <PrintLoadingState />
                     <PayPalButtons
-                      // createOrder={handleCreatePayPalOrder}
-                      onApprove={handleApprovePayPalOrder}
+                    // createOrder={handleCreatePayPalOrder}
                     />
                   </PayPalScriptProvider>
                 </div>

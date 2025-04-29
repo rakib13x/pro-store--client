@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useGetAllBlogs } from "@/hooks/blog.hook";
 import Articles from "../articles";
 
 export default function OurBlog() {
   const { data: blogData } = useGetAllBlogs();
-  console.log("blog data is:", blogData);
 
   // Map the data to match the required structure for the Articles component
-  const articles = blogData?.data?.slice(0, 3).map((blog) => ({
+  const articles = blogData?.data?.slice(0, 3).map((blog: any) => ({
     image: blog.image,
     title: blog.title,
     author: blog.author

@@ -1,7 +1,6 @@
+// CardReview.tsx
 import React from "react";
 import { cn } from "@heroui/react";
-
-import Review from "./review";
 import { ReviewType } from "./review-type";
 import ReviewList from "./reviewList";
 
@@ -16,7 +15,13 @@ const CardReview = React.forwardRef<HTMLDivElement, CardReviewProps>(
         className
       )}
     >
-      <ReviewList {...review} />
+      <ReviewList
+        user={review.user}
+        createdAt={review.createdAt}
+        rating={review.rating}
+        title={review.title}
+        content={review.content}
+      />
     </div>
   )
 );

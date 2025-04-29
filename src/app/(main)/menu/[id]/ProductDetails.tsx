@@ -17,26 +17,18 @@ import { useProductReviews } from "@/hooks/review.hook";
 import CardReview from "@/components/card-review";
 import { useRouter } from "next/navigation";
 
-export default function ProductDetails({ params }: { params: { id: string } }) {
+interface ProductDetailsProps {
+  slug: string;
+}
+
+export default function ProductDetails({ slug }: ProductDetailsProps) {
   const router = useRouter();
   const [productId, setProductId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const slug = params.id;
-  // Add artificial loading state
-  // const [artificialLoading, setArtificialLoading] = useState(true);
 
   const { data: allProductsResponse } = useGetAllProducts("", 1, null);
   const allProducts = allProductsResponse?.data;
   const { data: currentUser } = useCurrentUser();
-
-  // // Set up artificial 1-minute loading delay
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setArtificialLoading(false);
-  //   }, 60000); // 60 seconds = 1 minute
-
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
@@ -48,7 +40,6 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
       if (matchingProduct) {
         setProductId(matchingProduct.productId);
-        console.log("Found matching product ID:", matchingProduct.productId);
       }
     }
   }, [allProducts, slug]);
@@ -56,21 +47,15 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   const { data: { data: product } = {}, isLoading: apiLoading } =
     useSingleProduct(productId || "");
   const { data: reviewsData, isLoading } = useProductReviews(productId || "");
-  console.log("Reviews Data:", reviewsData);
   const dispatch = useDispatch();
 
   const handleRedirect = () => {
     router.push("/login");
   };
 
-  // Combine the real loading state with our artificial one
-  // const isLoading = apiLoading || artificialLoading;
-
   const handleAddToCart = () => {
     if (product && product.productId) {
-      console.log("Starting addToCart process...");
-      console.log("Product being added:", product);
-      console.log("Selected quantity:", quantity);
+  
 
       const cartItem: ICartItem = {
         productId: product.productId,
@@ -82,7 +67,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
         description: product.description,
       };
 
-      console.log("Cart item being dispatched:", cartItem);
+
 
       // Assuming you have the userId available (you can retrieve it from the current user context or state)
       const userId = currentUser?.userID || null; // Replace with actual userId if available
@@ -92,7 +77,6 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
 
       // Show success toast notification using sonner
       toast.success("Item added to cart successfully!");
-      console.log("Item added to cart successfully");
     } else {
       console.error("Cannot add to cart: Product or productId is undefined");
     }
@@ -103,7 +87,6 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
     setQuantity(newQuantity);
   };
 
-  console.log("Fetched Product:", product);
 
   if (apiLoading) {
     return (
@@ -111,12 +94,6 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
         <p className="flex justify-center items-center h-screen">
           <Loader />
         </p>
-        {/* <p className="mt-4 text-gray-500">Loading product details...</p>
-        {artificialLoading && (
-          <p className="mt-2 text-sm text-gray-400">
-            (Testing extended loading state - will complete in 1 minute)
-          </p>
-        )} */}
       </div>
     );
   }
@@ -124,7 +101,6 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   if (!product && !apiLoading) {
     return (
       <div className="container pt-36">
-        {" "}
         <p className="flex justify-center items-center h-screen">
           <Loader />
         </p>
@@ -135,7 +111,10 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
   return (
     <div className="container">
       <div className="pb-10 pt-28 lg:pb-20 lg:pt-36">
-        <Breadcrumbs previousPath="Menu" currentPath={product?.name || ""} />
+        <Breadcrumbs
+          previousPath="Menu"
+          currentPath={product?.name || "empty"}
+        />
         <div className="mt-16 grid grid-cols-1 gap-y-10 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0">
           <div className="w-full">
             <FoodSwiper images={product?.productPhoto || []} />
@@ -165,16 +144,7 @@ export default function ProductDetails({ params }: { params: { id: string } }) {
                 Add to Cart
               </button>
 
-              <button
-                className="btn-pink-outline !p-3"
-                // onClick={() =>
-                //   saveToLocalStorage({
-                //     name: product?.name || null,
-                //     image: product?.productPhoto?.[0] || null,
-                //     price: product?.price || null,
-                //   })
-                // }
-              >
+              <button className="btn-pink-outline !p-3">
                 <AiOutlineHeart size={30} />
               </button>
             </div>

@@ -51,7 +51,6 @@ export default function FoodMenu() {
     categoryName: string,
     categoryId: string | null
   ) => {
-    console.log(`Changing category to: ${categoryName}, ID: ${categoryId}`);
     setSelectedCategory(categoryName);
     setSelectedCategoryId(categoryId);
   };

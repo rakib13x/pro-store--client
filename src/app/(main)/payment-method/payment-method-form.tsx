@@ -40,7 +40,6 @@ const PaymentMethodForm = ({
       {
         onSuccess: () => {
           router.push("/place-order");
-          console.log("Navigation triggered");
         },
         onError: (error) => {
           toast.error(error.message);

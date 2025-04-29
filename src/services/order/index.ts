@@ -62,52 +62,50 @@ export const createOrder = async (cartItems: ICartItem[]) => {
 
 export const getOrderById = async (id: string) => {
     try {
+        if (!id) return null; // Add guard clause for empty id
         const res = await axiosInstance.get(`/order/${id}`);
         return res.data;
     } catch (error) {
-        handleError(error);
+        console.error("Error fetching order:", error);
+        throw error; // Rethrow to let React Query handle it
     }
 };
-
-
 export const getMyOrders = async (
-    page: number = 1, 
-    limit: number = 10, 
+    page: number = 1,
+    limit: number = 10,
     searchTerm: string = ""
-  ) => {
+) => {
     try {
-      const token = (await cookies()).get("accessToken")?.value;
-      console.log("Token:", token);
-  
-      if (!token) {
-        throw new Error("No authentication token found");
-      }
-  
-      const authHeader = `Bearer ${token}`;
-      console.log("Authorization header:", authHeader);
-  
-      // Construct query parameters
-      const queryParams = new URLSearchParams();
-      queryParams.append("page", page.toString());
-      queryParams.append("limit", limit.toString());
-      if (searchTerm) {
-        queryParams.append("searchTerm", searchTerm);
-      }
-  
-      const res = await axiosInstance.get(`/order/my-orders?${queryParams.toString()}`, {
-        headers: {
-          Authorization: authHeader
+        const token = (await cookies()).get("accessToken")?.value;
+
+        if (!token) {
+            throw new Error("No authentication token found");
         }
-      });
-  
-      return res.data;
+
+        const authHeader = `Bearer ${token}`;
+
+        // Construct query parameters
+        const queryParams = new URLSearchParams();
+        queryParams.append("page", page.toString());
+        queryParams.append("limit", limit.toString());
+        if (searchTerm) {
+            queryParams.append("searchTerm", searchTerm);
+        }
+
+        const res = await axiosInstance.get(`/order/my-orders?${queryParams.toString()}`, {
+            headers: {
+                Authorization: authHeader
+            }
+        });
+
+        return res.data;
     } catch (error: any) {
-      console.error("Order API Error:", error);
-      console.error("Response data:", error.response?.data);
-      console.error("Status code:", error.response?.status);
-      throw new Error(error?.response?.data?.message || error?.message || "Failed to fetch orders");
+        console.error("Order API Error:", error);
+        console.error("Response data:", error.response?.data);
+        console.error("Status code:", error.response?.status);
+        throw new Error(error?.response?.data?.message || error?.message || "Failed to fetch orders");
     }
-  };
+};
 
 export const createPaymentIntent = async (orderId: string): Promise<IApiResponse<any>> => {
     try {

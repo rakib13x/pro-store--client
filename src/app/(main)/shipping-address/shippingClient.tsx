@@ -12,7 +12,6 @@ const ShippingClient = () => {
   const { cartItems } = useSelector((state: RootState) => state.cartSlice);
   const { data: userData, isLoading } = useCurrentUser();
   const userId = userData?.userID;
-  console.log("userData", userData);
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -24,7 +23,6 @@ const ShippingClient = () => {
   if (!userId) return <p>No user found</p>;
 
   const address = userData?.address;
-  console.log("user address is:", address);
 
   return (
     <>

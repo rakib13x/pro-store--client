@@ -1,26 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-import React from "react";
-import { DirectionProvider as RadixDirProvider } from "@radix-ui/react-direction";
-import { useConfig } from "@/hooks/use-config";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// "use client";
+// import React from "react";
+// import { DirectionProvider as RadixDirProvider } from "@radix-ui/react-direction";
+// import { useConfig } from "@/hooks/use-config";
 
-const DirectionProvider = ({
-  direction,
-  children,
-}: {
-  direction: any;
-  children: React.ReactNode;
-}) => {
-  const [, setConfig] = useConfig();
+// const DirectionProvider = ({
+//   direction,
+//   children,
+// }: {
+//   direction: any;
+//   children: React.ReactNode;
+// }) => {
+//   const [config,setConfig] = useConfig();
 
-  React.useEffect(() => {
-    setConfig((prevConfig) => ({
-      ...prevConfig,
-      isRtl: direction === "rtl",
-    }));
-  }, [direction, setConfig]);
+//   React.useEffect(() => {
+//     setConfig((prevConfig) => ({
+//       ...prevConfig,
+//       isRtl: direction === "rtl",
+//     }));
+//   }, [direction, setConfig]);
 
-  return <RadixDirProvider dir={direction}>{children}</RadixDirProvider>;
-};
+//   return <RadixDirProvider dir={direction}>{children}</RadixDirProvider>;
+// };
 
-export default DirectionProvider;
+// export default DirectionProvider;

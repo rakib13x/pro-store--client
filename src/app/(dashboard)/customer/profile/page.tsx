@@ -1,7 +1,5 @@
 "use client";
 
-import type { CardProps } from "@heroui/react";
-
 import React from "react";
 import {
   Card,
@@ -20,21 +18,18 @@ import { Icon } from "@iconify/react";
 import countries from "./countries";
 import { useCurrentUser } from "@/hooks/auth.hook";
 
-export default function Profile(props: CardProps) {
+// Next.js pages should not accept props like CardProps
+export default function ProfilePage() {
   const { data: userData } = useCurrentUser();
-  const user = userData?.data;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
-
-    console.log(data);
   };
 
   return (
     <div className="flex h-full w-full items-start justify-center overflow-scroll">
-      <Card className="max-w-xl p-2" {...props}>
+      <Card className="max-w-xl p-2">
         <CardHeader className="flex flex-col items-start px-4 pb-0 pt-4">
           <p className="text-large">Account Details</p>
           <div className="flex gap-4 py-4">
@@ -61,7 +56,7 @@ export default function Profile(props: CardProps) {
               <Avatar
                 className="h-14 w-14"
                 src={
-                  user?.profilePhoto ||
+                  userData?.profilePhoto ||
                   "https://i.pravatar.cc/150?u=a04258114e29026708c"
                 }
               />
@@ -136,7 +131,6 @@ export default function Profile(props: CardProps) {
                         src={`https://flagcdn.com/${item.code.toLowerCase()}.svg`}
                       />
                     }
-                    //   value={item.code}
                   >
                     {item.name}
                   </AutocompleteItem>

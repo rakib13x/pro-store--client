@@ -12,7 +12,7 @@ export type ReviewType = {
   };
   createdAt: string;
   rating: number;
-  title: string;
+  title?: string;
   content: string;
 };
 
@@ -21,7 +21,7 @@ export type ReviewProps = React.HTMLAttributes<HTMLDivElement> & ReviewType;
 const ReviewList = React.forwardRef<HTMLDivElement, ReviewProps>(
   ({ children, user, title, content, rating, createdAt, ...props }, ref) => (
     <div ref={ref} {...props}>
-      <div className=" flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <User
             avatarProps={{

@@ -21,7 +21,6 @@ const Navbar = () => {
 
   const { cartItems } = useAppSelector((state) => state.cartSlice);
   const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  console.log("number of cart items", count);
   // const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { data: userData, isLoading } = useCurrentUser();
   const useLogOut = useContext(AuthContext);
@@ -301,8 +300,10 @@ const Navbar = () => {
                     onClick={handleProfileDropdown}
                   >
                     <span className="sr-only">Open user menu</span>
-                    <img
+                    <Image
                       className="w-8 h-8 rounded-full"
+                      height={20}
+                      width={20}
                       src={userData?.profilePhoto}
                       alt="User profile"
                     />

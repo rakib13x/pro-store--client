@@ -51,7 +51,7 @@ const AllProducts = () => {
     currentPage,
     categoryId
   );
-  console.log("allProductData:", allProductData);
+
 
   const { mutate: deleteProduct } = useDeleteProduct();
   const handleDeleteProduct = async (productId: string) => {

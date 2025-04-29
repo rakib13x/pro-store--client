@@ -14,6 +14,7 @@ const invalidateAllCategoryData = () =>
 export const useCreateCategory = () => {
     return useMutation<any, Error, FieldValues>({
         mutationFn: addCategory,
+        onSuccess: invalidateAllCategoryData,
     });
 };
 

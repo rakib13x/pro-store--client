@@ -5,9 +5,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
-import InputField from "../InputField";
-import Image from "next/image";
-import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useCreateCategory } from "@/hooks/category.hook";
 import { uploadImagesToCloudinary } from "@/lib/utils/uploadImageArray";
@@ -43,38 +40,6 @@ const CategoryForm = ({
     resolver: zodResolver(categorySchema),
   });
 
-  // const onSubmit = handleSubmit(async (formData) => {
-  //   if (formData.image && formData.image.length > 0) {
-  //     const imageFile = formData.image[0];
-  //     await handleImageUpload(imageFile); // Upload the image to Cloudinary
-  //   }
-
-  //   const productFormData = new FormData();
-  //   productFormData.append("name", formData.name);
-  //   if (!categoryImageUrl) {
-  //     toast.error("Category Image is not available"); // Pass the Cloudinary image URL
-  //   }
-  //   if (categoryImageUrl) {
-  //     productFormData.append("image", categoryImageUrl); // Pass the Cloudinary image URL
-  //   }
-
-  //   console.log("FormData before submission:");
-  //   for (let [key, value] of productFormData.entries()) {
-  //     console.log(key, value);
-  //   }
-
-  //   createProductMutation(productFormData, {
-  //     onSuccess: (data) => {
-  //       toast.success("Product created successfully!");
-  //       reset(); // Reset form on success
-  //     },
-  //     onError: (error: any) => {
-  //       toast.error(
-  //         "Error creating product. Please check the details and try again."
-  //       );
-  //     },
-  //   });
-  // });
 
   const { mutate, isPending } = useCreateCategory();
 

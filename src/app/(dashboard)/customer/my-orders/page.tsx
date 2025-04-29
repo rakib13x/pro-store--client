@@ -110,7 +110,7 @@ const MyOrders = () => {
       <td className="p-4">
         <div className="flex items-center gap-2">
           <Link
-            href={`/orders/${order.orderId}`}
+            href={`/order/${order.orderId}`}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 transition-colors"
           >
             <Eye size={16} className="text-blue-700" />

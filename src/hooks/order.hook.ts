@@ -22,10 +22,12 @@ export const useCreateOrder = () => {
 
 
 export const useGetOrderById = (orderId: string) => {
-    return useQuery<IApiResponse<any>>({
+    return useQuery({
         queryKey: ["order", orderId],
         queryFn: () => getOrderById(orderId),
-        enabled: orderId !== "",
+        enabled: !!orderId, // Use double negation for proper boolean conversion
+        retry: 1, // Limit retries on failure
+        staleTime: 30000, // Consider data fresh for 30 seconds
     });
 };
 
@@ -56,15 +58,14 @@ export const useVerifyPayment = (): UseMutationResult<
 };
 
 export const useGetMyOrders = (
-    page: number = 1, 
-    limit: number = 10, 
+    page: number = 1,
+    limit: number = 10,
     searchTerm: string = ""
-  ) => {
+) => {
     return useQuery<IApiResponse<any>>({
-      queryKey: ["my-orders", page, limit, searchTerm],
-      queryFn: () => getMyOrders(page, limit, searchTerm),
+        queryKey: ["my-orders", page, limit, searchTerm],
+        queryFn: () => getMyOrders(page, limit, searchTerm),
     });
-  };
-  
+};
 
- 
+

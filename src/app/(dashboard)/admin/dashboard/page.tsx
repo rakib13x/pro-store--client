@@ -4,22 +4,14 @@ import ReturningRate from "@/components/product-return";
 import Sales from "@/components/sales";
 import TopCustomer from "@/components/top-customer";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import { IndianRupee } from "lucide-react";
-import React, { HTMLAttributes } from "react";
+import React from "react";
 
-type Props = HTMLAttributes<HTMLDivElement>;
-
-const Dashboard = ({ className, ...props }: Props) => {
+// For Next.js pages, we don't need to accept HTML attributes
+export default function DashboardPage() {
   return (
     <div>
-      <Card
-        className={cn(
-          "py-6 lg:h-44 grid grid-cols-1 lg:grid-cols-3",
-          className
-        )}
-        {...props}
-      >
+      <Card className="py-6 lg:h-44 grid grid-cols-1 lg:grid-cols-3">
         <div className="px-6">
           <div className="flex items-center pr-2.5">
             <IndianRupee className="w-7 h-7 text-icon" />
@@ -31,7 +23,6 @@ const Dashboard = ({ className, ...props }: Props) => {
               <h6 className="text-sm font-semibold">$45k+</h6>
               <p className="text-sm text-secondary-foreground">20% Increase</p>
             </div>
-
             <div className="max-w-[150px] h-[100px] w-full">
               <ActionlessAreaChart
                 height={110}
@@ -129,6 +120,4 @@ const Dashboard = ({ className, ...props }: Props) => {
       </div>
     </div>
   );
-};
-
-export default Dashboard;
+}

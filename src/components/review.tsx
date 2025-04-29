@@ -7,7 +7,6 @@ import ModalReview from "./modal-review";
 
 export default function ReviewSection({ productId }: any) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  console.log("product id is:", productId);
 
   // Handle case when user is not logged in
   const handleReviewClick = () => {

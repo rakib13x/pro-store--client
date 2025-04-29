@@ -4,6 +4,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { JSX, useState } from "react";
+import Loader from "./Loader";
 
 // USE LAZY LOADING
 
@@ -11,10 +12,18 @@ import { JSX, useState } from "react";
 // import StudentForm from "./forms/StudentForm";
 
 const ProductForm = dynamic(() => import("./forms/ProductForm"), {
-  loading: () => <h1>Loading...</h1>,
+  loading: () => (
+    <div className="text-center py-10 grid place-items-center  h-[700px]">
+      <Loader />
+    </div>
+  ),
 });
 const CategoryForm = dynamic(() => import("./forms/CategoryForm"), {
-  loading: () => <h1>Loading...</h1>,
+  loading: () => (
+    <div className="text-center py-10 grid place-items-center h-[600px]">
+      <Loader />
+    </div>
+  ),
 });
 
 const forms: {

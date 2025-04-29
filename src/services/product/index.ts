@@ -23,7 +23,6 @@ export const getAllProduct = async (searchTerm: string, page: number, categoryId
             params.categoryId = categoryId;
         }
 
-        console.log("Fetching products with params:", params);
 
         const res = await axiosInstance.get("/product/allproducts", {
             params: params,

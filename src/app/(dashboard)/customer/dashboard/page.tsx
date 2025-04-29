@@ -1,22 +1,13 @@
-import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
 import ActionlessAreaChart from "@/components/charts/actionless-area-chart";
 import { Card } from "@/components/ui/card";
 import { IndianRupee } from "lucide-react";
 import OrderStatus from "@/components/OrderStatus";
 
-type Props = HTMLAttributes<HTMLDivElement>;
-
-const CustomerDashboardPage = ({ className, ...props }: Props) => {
+// Remove the Props type and don't accept props in the page component
+export default function CustomerDashboardPage() {
   return (
     <>
-      <Card
-        className={cn(
-          "py-6 lg:h-44 grid grid-cols-1 lg:grid-cols-3",
-          className
-        )}
-        {...props}
-      >
+      <Card className="py-6 lg:h-44 grid grid-cols-1 lg:grid-cols-3">
         <div className="px-6">
           <div className="flex items-center pr-2.5">
             <IndianRupee className="w-7 h-7 text-icon" />
@@ -122,6 +113,4 @@ const CustomerDashboardPage = ({ className, ...props }: Props) => {
       </div>
     </>
   );
-};
-
-export default CustomerDashboardPage;
+}

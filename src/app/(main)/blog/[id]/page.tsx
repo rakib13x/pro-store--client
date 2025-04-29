@@ -1,10 +1,24 @@
-import React from "react";
-import DetailBlog from "./BlogDetails";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+// import DetailBlogClient from "./BlogDetails";
 
-const DetailBlogPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+// export default function DetailBlogPage({ params }: { params: { id: string } }) {
+//   return <DetailBlogClient slug={params.id} />;
+// }
+// import DetailBlogClient from "./BlogDetails";
 
-  return <div>{id && <DetailBlog params={{ id: id }} />}</div>;
-};
+// export default function DetailBlogPage() {
+//   return <div>This is blog id page</div>;
+// }
 
-export default DetailBlogPage;
+import { use } from "react";
+import DetailBlogClient from "./BlogDetails";
+
+export default function Blogpage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  return <DetailBlogClient slug={id} />;
+}

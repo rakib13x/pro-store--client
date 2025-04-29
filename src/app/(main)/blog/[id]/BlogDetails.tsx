@@ -1,15 +1,20 @@
-// app/blog/[slug]/BlogDetails.tsx
+// app/(main)/blog/[id]/DetailBlogClient.tsx
 "use client";
+
 import { useEffect, useState } from "react";
 import { useGetAllBlogs, useGetSingleBlog } from "@/hooks/blog.hook";
 import { convertSlugToName } from "@/utils/helper";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Articles from "@/components/articles";
 import Loader from "@/components/Loader";
+import Image from "next/image";
 
-export default function DetailBlog({ params }: { params: { id: string } }) {
+interface DetailBlogClientProps {
+  slug: string;
+}
+
+export default function DetailBlogClient({ slug }: DetailBlogClientProps) {
   const [blogId, setBlogId] = useState<string | null>(null);
-  const slug = params.id;
 
   // Get all blogs to find matching ID
   const { data: allBlogsResponse } = useGetAllBlogs();
@@ -26,9 +31,9 @@ export default function DetailBlog({ params }: { params: { id: string } }) {
 
       if (matchingBlog) {
         setBlogId(matchingBlog.blogId);
-        console.log("Found matching blog ID:", matchingBlog.blogId);
+      
       } else {
-        console.log("No matching blog found for slug:", slug);
+
       }
     }
   }, [allBlogs, slug]);
@@ -38,7 +43,7 @@ export default function DetailBlog({ params }: { params: { id: string } }) {
     blogId || ""
   );
 
-  console.log("Fetched Blog:", blog);
+
 
   if (isLoading) {
     return (
@@ -61,10 +66,12 @@ export default function DetailBlog({ params }: { params: { id: string } }) {
             {blog?.title}
           </h2>
           <div className="mt-4 flex items-center justify-center space-x-3">
-            <img
+            <Image
               className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
               src={blog?.author?.profilePhoto || "/default-avatar.png"}
               alt="author avatar"
+              width={48}
+              height={48}
             />
             <div className="space-y-1.5 text-start">
               <span className="text-body-3-bold block text-secondary-100">

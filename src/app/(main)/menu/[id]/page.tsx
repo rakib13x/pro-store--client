@@ -1,10 +1,11 @@
-import React from "react";
+import { use } from "react";
 import ProductDetails from "./ProductDetails";
 
-const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
-
-  return <div>{id && <ProductDetails params={{ id: id }} />}</div>;
-};
-
-export default ProductDetailsPage;
+export default function Menupage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  return <ProductDetails slug={id} />;
+}

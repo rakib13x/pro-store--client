@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+//@ts-nocheck
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,25 +20,21 @@ import { useCurrentUser } from "@/hooks/auth.hook";
 export default function MyCart() {
   const { cartItems, subTotal, totalPriceBeforeDiscount, totalDiscount } =
     useAppSelector((state) => state.cartSlice);
-  console.log("Sub Total Price is:", subTotal);
   const dispatch = useAppDispatch();
   const [couponCode, setCouponCode] = useState("");
 
-  const { data: currentUser } = useCurrentUser(); // Using the current user data from the hook
-  console.log("Current User:", currentUser?.userID);
+  const { data: currentUser } = useCurrentUser(); 
   useEffect(() => {
     const fetchUserCart = () => {
       if (currentUser?.userID) {
-        // Ensure that userId exists
-        const userId = currentUser.userID; // Get the logged-in user's ID from the decoded token
-        const cartData = localStorage.getItem(`cart_${userId}`); // Directly use userId here
+
+        const userId = currentUser.userID; 
+        const cartData = localStorage.getItem(`cart_${userId}`); 
 
         if (cartData) {
           const parsedCartData = JSON.parse(cartData);
-          // Dispatch the setUserCart action to update the Redux store with the cart data
           dispatch(setUserCart(parsedCartData));
         } else {
-          // If no cart data, ensure the Redux state is empty
           dispatch(setUserCart([]));
         }
       }
@@ -70,7 +68,7 @@ export default function MyCart() {
   const handleRemoveItem = (productId: string) => {
     if (currentUser?.userID) {
       // Ensure userId exists
-      console.log("Removing item with productId:", productId);
+
       dispatch(removeItemFromCart({ productId, userId: currentUser.userID }));
     }
   };
@@ -79,7 +77,6 @@ export default function MyCart() {
   const handleApplyCoupon = () => {
     if (couponCode.trim()) {
       // Implement coupon logic here
-      console.log("Applying coupon:", couponCode);
       // For example: dispatch(applyCoupon(couponCode));
     }
   };

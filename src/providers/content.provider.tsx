@@ -1,10 +1,11 @@
 "use client";
-import { useConfig } from "@/hooks/use-config";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useConfig } from "@/hooks/use-config";
+
 
 const LayoutContentProvider = ({ children }: { children: React.ReactNode }) => {
-  const [config] = useConfig();
+  const config = useConfig();
 
   if (config.sidebar === "two-column") {
     return (

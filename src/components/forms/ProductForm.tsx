@@ -74,7 +74,7 @@ const ProductForm = ({
     return <p>Loading categories...</p>;
   }
 
-  console.log(CategoryData);
+
 
   const onFromSubmit = async (data: FieldValues) => {
     const {
