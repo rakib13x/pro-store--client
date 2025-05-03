@@ -14,6 +14,7 @@ import PopularMenu from "@/components/sections/popular-menu";
 import Testimonial from "@/components/sections/testimonial";
 import OurBlog from "@/components/sections/our-blog";
 import Link from "next/link";
+import ChatWidget from "@/components/ChatComponents/ChatWidget";
 
 export default function Home() {
   return (
@@ -126,6 +127,8 @@ export default function Home() {
         <OurBlog />
       </div>
       {/* End Content Section */}
+
+      <ChatWidget />
     </>
   );
 }

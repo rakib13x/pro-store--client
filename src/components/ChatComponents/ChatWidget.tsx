@@ -144,16 +144,14 @@ const ChatWidget = () => {
       ]);
     } finally {
       setIsLoading(false);
-      setInput(""); // Clear input after processing the prompt
+      setInput("");
     }
   };
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Ensure scrolling works when chat is opened
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
@@ -164,7 +162,7 @@ const ChatWidget = () => {
     <>
       {/* Chat Toggle Button */}
       <button
-        className="fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-full w-16 h-16 bg-black hover:bg-gray-700 m-0 cursor-pointer border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900 z-50"
+        className="fixed bottom-4 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-full w-16 h-16 bg-primary-100 hover:bg-pink-600 m-0 cursor-pointer border-gray-200 bg-none p-0 normal-case leading-5 hover:text-gray-900 z-50"
         type="button"
         onClick={toggleChat}
         aria-expanded={isOpen}
@@ -190,7 +188,7 @@ const ChatWidget = () => {
 
       {/* Chat Container */}
       {isOpen && (
-        <div className="fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] w-[440px] h-[634px] flex flex-col z-40 shadow-lg">
+        <div className="fixed bottom-[calc(4rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-[#e5e7eb] md:w-[440px] w-[350px] h-[634px] flex flex-col z-40 shadow-lg">
           {/* Heading */}
           <div className="flex flex-col space-y-1.5 pb-4">
             <h2 className="font-semibold text-lg tracking-tight">AssumeBot</h2>
@@ -315,7 +313,7 @@ const ChatWidget = () => {
                 onChange={handleInputChange}
               />
               <button
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-black hover:bg-[#111827E6] h-10 px-4 py-2 mb-2"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium text-[#f9fafb] disabled:pointer-events-none disabled:opacity-50 bg-primary-100 hover:bg-[#111827E6] h-10 px-4 py-2 mb-2"
                 type="submit"
                 disabled={isLoading || !input.trim()}
               >
