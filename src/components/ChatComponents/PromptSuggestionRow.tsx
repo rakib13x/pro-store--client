@@ -1,6 +1,6 @@
 import PromptSuggestionButton from "./PromptSuggestionButton";
 
-const PromptSuggestionRow = ({ onPromptClick }) => {
+const PromptSuggestionRow = ({ onPromptClick }: { onPromptClick: (prompt: string) => void }) => {
   const prompts = [
     "What is the meaning of life?",
     "Tell me a joke.",

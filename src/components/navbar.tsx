@@ -104,12 +104,66 @@ const Navbar = () => {
                 5
               </span>
             </Link>
-            <Link
-              href="/signup"
-              className="rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
-            >
-              <IoIosLogIn style={{ height: "21px" }} />
-            </Link>
+            {userData ? (
+              <div className="relative lg:block hidden">
+                <div>
+                  <button
+                    type="button"
+                    className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    id="user-menu-button"
+                    aria-expanded={isProfileOpen ? "true" : "false"}
+                    aria-haspopup="true"
+                    onClick={handleProfileDropdown}
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <Image
+                      className="w-8 h-8 rounded-full"
+                      height={20}
+                      width={20}
+                      src={userData?.profilePhoto}
+                      alt="User profile"
+                    />
+                  </button>
+                </div>
+
+                {isProfileOpen && (
+                  <div
+                    className="absolute right-2 z-50 mt-2 w-32 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
+                  >
+                    <p
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                    >
+                      {userData?.userName}
+                    </p>
+                    <Link
+                      href={getDashboardLink(userData?.role)}
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      onClick={logOutUser}
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/signup"
+                className="rounded-sm border border-secondary-100 p-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
+              >
+                <IoIosLogIn style={{ height: "21px" }} />
+              </Link>
+            )}
             <button
               className="rounded-sm border border-secondary-100 px-3 py-1.5 transition duration-300 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
               onClick={() => setIsOpen(!isOpen)}
@@ -348,7 +402,7 @@ const Navbar = () => {
                   pathname.startsWith("/signup")
                     ? "border-primary-100 bg-primary-100 text-white"
                     : "border-secondary-100 bg-transparent text-secondary-100 hover:border-primary-100 hover:bg-primary-100 hover:text-white"
-                } text-body-2-medium mt-6 rounded-[32px] border px-6 py-[10px] text-center transition duration-300 lg:mt-0`}
+                } text-body-2-medium mt-6 rounded-[32px] border px-6 py-[10px] text-center transition duration-300 lg:mt-0 hidden md`}
               >
                 Sign up
               </Link>
